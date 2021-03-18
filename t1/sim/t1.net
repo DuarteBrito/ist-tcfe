@@ -1,0 +1,21 @@
+*
+* NGSPICE simulation script
+* BJT amp with feedback
+*
+
+* forces current values to be saved
+.options savecurrents
+
+* Va supply voltage
+Vcc 1 0 5.07638677695
+
+* R1
+Rs 1 2 1.04944227714k
+
+* R2
+Rs 2 3 2.06296295698k
+
+* R3
+Rs 2 4 3.07855037163k
+
+
