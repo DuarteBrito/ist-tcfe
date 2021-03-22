@@ -1,4 +1,4 @@
-octave.log: rc.m
+octave.log: lab1.m
 	octave $< > $@
 
 clean:
