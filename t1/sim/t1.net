@@ -1,6 +1,6 @@
 *
 * NGSPICE simulation script
-* BJT amp with feedback
+* Lab1
 *
 
 * forces current values to be saved
@@ -42,6 +42,8 @@ R6 0 9 2.01824745844k
 * R7
 R7 6 7 1.04357678508k
 
+.control
+
 op
 
 echo "********************************************"
@@ -53,5 +55,6 @@ echo  "op_TAB"
 print all
 echo  "op_END"
 
+.endc
 
 .end
