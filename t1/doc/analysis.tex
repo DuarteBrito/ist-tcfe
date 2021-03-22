@@ -14,7 +14,53 @@ theoretically, in terms of its time and frequency responses.
 
 The Figure~\ref{fig:circuitMesh} has both the mesh's currents and the 
 component's admited direction.
-This reference is indispensable for the Nodal Analysis
+This reference is indispensable for the Mesh Analysis.
+Using KVL in each of the 4 meshes, we achieve the following equations:
+
+Malha A:
+$$ R_1 * I_A + R_3(I_A+I_B) + R_4(I_A+I_C) = V_A$$
+Malha B:
+$$ I_B = K_c * R_3(I_A + I_B) $$
+Malha C:
+$$ R_4(I_A + I_C) + R_6 * I_C + R_7 * I_C = K_c * I_C $$
+Malha D:
+$$ I_D = I_d $$
+
+After doing some algebra, we can get the following system of equations. After that, 
+we can solve it by enquadrating it in a matriz like shown bellow:
+
+\[
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & K_c * G_6 & -1\\
+G_1 & -G_1-G_2 - G_3 & G_2 & G_3 & 0 & 0 & 0\\
+0 & -K_b & 0 & G_5 + K_b & -G_5 & 0 & 0\\
+0 & -K_b & 0 & G_5 + K_b & -G_5 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & -G_6-G_7 & G_7\\
+G_1 & -G_1 & 0 & -G_4 & 0 & -G_6 & 0\\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+V_1\\
+V_2\\
+V_3\\
+V_4\\
+V_5\\
+V_6\\
+V_7\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+V_a\\
+0\\
+0\\
+0\\
+-I_d\\
+0\\
+0\\
+\end{bmatrix}
+\]
+
 
 \subsection{Nodal Analysis}
 
@@ -24,8 +70,51 @@ This reference is indispensable for the Nodal Analysis
 \label{fig:circuitNodes}
 \end{figure}
 
-The Figure~\ref{fig:circuitNodes} has the node references added to it.
-This reference is indispensable for the Nodal Analysis
+The Figure~\ref{fig:circuitNodes} has the node references appended.
+This reference is indispensable for the Nodal Analysis.
+Using KVL in each of the 4 meshes, we achieve the following equations:
 
+Node 2:
+$$ (V_1 - V_2)G_1 + (V_3 - V_2)G_2 = (V_2 - V_4)G_3 $$
+Node 3:
+$$ (V_3 - V_2)G_2 = K_b(V_2 - V_4) $$
 
+Node 5:
+$$ (V_4 - V_5)G_5 + I_d = K_b(V_2 - V_4) $$
 
+Node 6:
+$$ (V_0 - V_6)G_6 = (V_6 - V_7)G_7 $$
+
+Additional equation:
+$$ V_0 = 0 $$
+$$ (V_1 - V_0) = V_a $$
+$$ V_4 - V_7 = K_c(V_0 - V_6)G_6$$
+$$ (V_0 -V_6)G_6 - (V_4 - V_0)G_4 + (V_1 - V_2)G_1 = 0 $$
+
+Similarly to the last example, the algebric manipulation brings us to the following system of equations, 
+and the solution can be found by enquadrating it in a matriz like shown bellow:
+
+\[
+\begin{bmatrix}
+R_1 + R_3 + R_4 & R_3 & R_4 & 0\\
+K_b * R_3 & K_b * R_3 - 1 & 0 & 0\\
+R_4 & 0 & R_6 - K_c + R_7 - R_4 & 0\\
+0 & 0 & 0 & 1\\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+I_A\\
+I_B\\
+I_C\\
+I_D\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+V_a\\
+0\\
+0\\
+I_d\\
+\end{bmatrix}
+\]
+
+\subsection{Result Comparison }
