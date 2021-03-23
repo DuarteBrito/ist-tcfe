@@ -7,7 +7,7 @@ theoretically, in terms of its time and frequency responses.
 \subsection{Mesh Analysis}
 
 \begin{figure}[h!] \centering
-	\includegraphics[width=0.6\linewidth]{circ_mesh.pdf}
+	\includegraphics[width=0.7\linewidth]{circ_mesh.pdf}
 	\caption{Mesh Analysis}
 	\label{fig:circuitMesh}
 \end{figure}
@@ -20,10 +20,13 @@ Using KVL in each of the 4 meshes, we achieve the following equations:
 
 Malha A:
 $$ R_1 * I_A + R_3(I_A+I_B) + R_4(I_A+I_C) = V_A$$
+
 Malha B:
 $$ I_B = K_c * R_3(I_A + I_B) $$
+
 Malha C:
 $$ R_4(I_A + I_C) + R_6 * I_C + R_7 * I_C = K_c * I_C $$
+
 Malha D:
 $$ I_D = I_d $$
 
@@ -93,7 +96,7 @@ Leading to the results bellow:
 \vspace{0.5cm}
 
 \begin{figure}[h!] \centering
-	\includegraphics[width=0.6\linewidth]{circ_node.pdf}
+	\includegraphics[width=0.7\linewidth]{circ_node.pdf}
 	\caption{Nodal Analysis}
 	\label{fig:circuitNodes}
 \end{figure}
@@ -173,3 +176,25 @@ the following results:
 \vspace{1.0cm}
 
 \subsection{Result Comparison }
+
+In order to compare the awnsers from the mesh and node methods, we
+can use the voltage values we obtained and, using Ohm's law ~(\ref{eq:ohm}), check if the
+current values are similar.
+
+\vspace{0.5cm}
+
+\begin{equation}
+  U = RI.
+  \label{eq:ohm}
+\end{equation}
+
+\vspace{0.5cm}
+
+\csvautotabular{../mat/comp.txt}
+
+\vspace{0.5cm}
+
+The interpretation of the previous table leads us to the conclusion that the
+values are virtualy equal.
+
+\vspace{0.5cm}
