@@ -6,10 +6,10 @@ theoretically, in terms of its time and frequency responses.
 
 \subsection{Mesh Analysis}
 
-\begin{figure}
-\includegraphics[width=0.4\linewidth]{circ_mesh.pdf}
-\caption{Mesh Analysis}
-\label{fig:circuitMesh}
+\begin{figure}[bp!] \centering
+	\includegraphics[width=0.6\linewidth]{circ_mesh.pdf}
+	\caption{Mesh Analysis}
+	\label{fig:circuitMesh}
 \end{figure}
 
 The Figure~\ref{fig:circuitMesh} has both the mesh's currents and the 
@@ -55,7 +55,7 @@ I_d\\
 After solving these equations using octave, we get 
 the following results:
 
-\csvautotabular{../mat/malhas.csv}
+\csvautotabular{../mat/malhas.txt}
 
 To get the current in each resistor, we use the following equations:
 
@@ -69,15 +69,15 @@ $$ I_7 = I_C $$
 
 Leading to the results bellow:
 
-\csvautotabular{../mat/cur.csv}
+\csvautotabular{../mat/cur.txt}
 
 \subsection{Nodal Analysis}
 
-\begin{figures}
-	\includegraphics[width=0.4\linewidth]{circ_node.pdf}
+\begin{figure}[bp!] \centering
+	\includegraphics[width=0.6\linewidth]{circ_node.pdf}
 	\caption{Nodal Analysis}
 	\label{fig:circuitNodes}
-\end{figures}
+\end{figure}
 
 The Figure~\ref{fig:circuitNodes} has the node references appended.
 This reference is indispensable for the Nodal Analysis.
@@ -138,6 +138,6 @@ V_a\\
 After solving these equations using octave, we get 
 the following results:
 
-\csvautotabular{../mat/nos.csv}
+\csvautotabular{../mat/nos.txt}
 
 \subsection{Result Comparison }

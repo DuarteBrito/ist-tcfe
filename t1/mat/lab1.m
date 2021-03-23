@@ -66,16 +66,16 @@ i7 = res_malhas(3);
 
 disp([i1; i2; i3; i4; i5; i6; i7])
 
-fidMalhas = fopen("malhas.csv","w");
-fprintf(fidMalhas," ,I(mA);");
-fprintf(fidMalhas,"Ia,%f\n;",res_malhas(1));
-fprintf(fidMalhas,"Ib,%f\n;",res_malhas(2));
-fprintf(fidMalhas,"Ic,%f\n;",res_malhas(3));
-fprintf(fidMalhas,"Id,%f\n;",res_malhas(4));
+fidMalhas = fopen("malhas.txt","w");
+fprintf(fidMalhas," ,I(mA)\n");
+fprintf(fidMalhas,"Ia,%f\n",res_malhas(1));
+fprintf(fidMalhas,"Ib,%f\n",res_malhas(2));
+fprintf(fidMalhas,"Ic,%f\n",res_malhas(3));
+fprintf(fidMalhas,"Id,%f\n",res_malhas(4));
 fclose(fidMalhas);
 
-fidNos = fopen("nos.csv","w");
-fprintf(fidNos," ,V(V)");
+fidNos = fopen("nos.txt","w");
+fprintf(fidNos," ,V(V)\n");
 fprintf(fidNos,"V1,%f\n",res_nos(1));
 fprintf(fidNos,"V2,%f\n",res_nos(2));
 fprintf(fidNos,"V3,%f\n",res_nos(3));
@@ -85,8 +85,8 @@ fprintf(fidNos,"V6,%f\n",res_nos(6));
 fprintf(fidNos,"V7,%f\n",res_nos(7));
 fclose(fidNos);
 
-fidCur = fopen("cur.csv","w");
-fprintf(fidCur," ,I(mA)");
+fidCur = fopen("cur.txt","w");
+fprintf(fidCur," ,I(mA)\n");
 fprintf(fidCur,"I1,%f\n",i1);
 fprintf(fidCur,"I2,%f\n",i2);
 fprintf(fidCur,"I3,%f\n",i3);
