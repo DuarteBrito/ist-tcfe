@@ -67,11 +67,11 @@ i7 = res_malhas(3);
 disp([i1; i2; i3; i4; i5; i6; i7])
 
 fidMalhas = fopen("malhas.csv","w");
-fprintf(fidMalhas," ,I(mA)");
-fprintf(fidMalhas,"Ia,%f\n",res_malhas(1));
-fprintf(fidMalhas,"Ib,%f\n",res_malhas(2));
-fprintf(fidMalhas,"Ic,%f\n",res_malhas(3));
-fprintf(fidMalhas,"Id,%f\n",res_malhas(4));
+fprintf(fidMalhas," ,I(mA);");
+fprintf(fidMalhas,"Ia,%f\n;",res_malhas(1));
+fprintf(fidMalhas,"Ib,%f\n;",res_malhas(2));
+fprintf(fidMalhas,"Ic,%f\n;",res_malhas(3));
+fprintf(fidMalhas,"Id,%f\n;",res_malhas(4));
 fclose(fidMalhas);
 
 fidNos = fopen("nos.csv","w");
