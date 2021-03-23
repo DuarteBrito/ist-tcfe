@@ -95,3 +95,22 @@ fprintf(fidCur,"I5,%f\n",i5);
 fprintf(fidCur,"I6,%f\n",i6);
 fprintf(fidCur,"I7,%f\n",i7);
 fclose(fidCur);
+
+is = [i1; i2; i3; i4; i5; i6; i7];
+rs = [1.04944227714; 2.06296295698; 3.07855037163; 4.04814283444; 3.03583837907; 2.01824745844; 1.04357678508];
+vs = rs.is;
+vs_nos = [res_nos(1)-res_nos(2);
+    res_nos(3)-res_nos(2);
+    res_nos(2)-res_nos(4);
+    res_nos(4)-0;
+    res_nos(4)-res_nos(5);
+    0-res_nos(6);
+    res_nos(6)-res_nos(7)];
+
+
+fidComp = fopen("comp.txt","w");
+fprintf(fidComp," n R , I(mA), RI(V), V nodal(V), Difference(V)\n");
+for k=1:length(rs)
+fprintf(fidComp,"%f,%f, %f, %f,%f\n",fix(k),is(k), vs(k), vs_nos(k), abs(vs(k)- vs_nos(k)) );
+end
+fclose(fidComp);
