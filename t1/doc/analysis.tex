@@ -31,36 +31,45 @@ we can solve it by enquadrating it in a matriz like shown bellow:
 
 \[
 \begin{bmatrix}
-1 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 1 & 0 & K_c * G_6 & -1\\
-G_1 & -G_1-G_2 - G_3 & G_2 & G_3 & 0 & 0 & 0\\
-0 & -K_b & 0 & G_5 + K_b & -G_5 & 0 & 0\\
-0 & -K_b & 0 & G_5 + K_b & -G_5 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & -G_6-G_7 & G_7\\
-G_1 & -G_1 & 0 & -G_4 & 0 & -G_6 & 0\\
+R_1 + R_3 + R_4 & R_3 & R_4 & 0\\
+K_b * R_3 & K_b * R_3 - 1 & 0 & 0\\
+R_4 & 0 & R_6 - K_c + R_7 - R_4 & 0\\
+0 & 0 & 0 & 1\\
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-V_1\\
-V_2\\
-V_3\\
-V_4\\
-V_5\\
-V_6\\
-V_7\\
+I_A\\
+I_B\\
+I_C\\
+I_D\\
 \end{bmatrix}
 =
 \begin{bmatrix}
 V_a\\
 0\\
 0\\
-0\\
--I_d\\
-0\\
-0\\
+I_d\\
 \end{bmatrix}
 \]
 
+After solving these equations using octave, we get 
+the following results:
+
+\csvautotabular{../mat/malhas.csv}
+
+To get the current in each resistor, we use the following equations:
+
+$$ I_1 = I_A $$
+$$ I_2 = I_B $$
+$$ I_3 = I_A + I_B $$
+$$ I_4 = I_A + I_C $$
+$$ I_5 = I_B - I_D $$
+$$ I_6 = I_C $$
+$$ I_7 = I_C $$
+
+Leading to the results bellow:
+
+\csvautotabular{../mat/cur.csv}
 
 \subsection{Nodal Analysis}
 
@@ -96,25 +105,39 @@ and the solution can be found by enquadrating it in a matriz like shown bellow:
 
 \[
 \begin{bmatrix}
-R_1 + R_3 + R_4 & R_3 & R_4 & 0\\
-K_b * R_3 & K_b * R_3 - 1 & 0 & 0\\
-R_4 & 0 & R_6 - K_c + R_7 - R_4 & 0\\
-0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & K_c * G_6 & -1\\
+G_1 & -G_1-G_2 - G_3 & G_2 & G_3 & 0 & 0 & 0\\
+0 & -K_b & 0 & G_5 + K_b & -G_5 & 0 & 0\\
+0 & -K_b & 0 & G_5 + K_b & -G_5 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & -G_6-G_7 & G_7\\
+G_1 & -G_1 & 0 & -G_4 & 0 & -G_6 & 0\\
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-I_A\\
-I_B\\
-I_C\\
-I_D\\
+V_1\\
+V_2\\
+V_3\\
+V_4\\
+V_5\\
+V_6\\
+V_7\\
 \end{bmatrix}
 =
 \begin{bmatrix}
 V_a\\
 0\\
 0\\
-I_d\\
+0\\
+-I_d\\
+0\\
+0\\
 \end{bmatrix}
 \]
+
+After solving these equations using octave, we get 
+the following results:
+
+\csvautotabular{../mat/nos.csv}
 
 \subsection{Result Comparison }
