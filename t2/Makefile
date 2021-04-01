@@ -5,12 +5,15 @@
 # ------------------------------------------------------------
 
 all:
-	make -C mat
-	make -C sim
-	make -C doc
-	cp doc/report.pdf .
+	echo '96373' > input.txt
+	python t2_datagen.py < input.txt > data.txt
+	#make -C mat
+	#make -C sim
+	#make -C doc
+	#cp doc/report.pdf .
 
 clean:
+	@rm -f *.txt
 	make -C mat clean
 	make -C sim clean
 	make -C doc clean
