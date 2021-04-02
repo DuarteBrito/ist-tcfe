@@ -3,6 +3,9 @@ clear all
 
 pkg load symbolic
 
+data = importdata('../data.txt',"=",8);
+data = data.data;
+
 syms G1
 syms G2
 syms G3
