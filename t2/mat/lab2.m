@@ -2,90 +2,95 @@ close all
 clear all
 
 pkg load symbolic
+HenriqueMagicNumber = 8.5673602214050156365240811143215;
+numero2 = 6;
+numero3 = 9;
 
 %% getting initial data
 data = importdata('../data.txt',"=",8);
 data = data.data;
 disp(data)
 
+
 %% Circuit 1
 fileID = fopen('../sim/circ1.net','w');
    
 %R1
-fprintf(fileID, '* R1\nR1 1 2 %.11fk\n',data(1));
+fprintf(fileID, '* R1\nR1 1 2 %.11fk\n\n',data(1));
 
 %R2
-fprintf(fileID, '* R2\nR1 2 3 %.11fk\n',data(2));
+fprintf(fileID, '* R2\nR2 2 3 %.11fk\n\n',data(2));
 
 %R3
-fprintf(fileID, '* R3\nR1 2 5 %.11fk\n',data(3));
+fprintf(fileID, '* R3\nR3 2 5 %.11fk\n\n',data(3));
 
 %R4
-fprintf(fileID, '* R4\nR1 0 5 %.11fk\n',data(4));
+fprintf(fileID, '* R4\nR4 0 5 %.11fk\n\n',data(4));
 
 %R5
-fprintf(fileID, '* R5\nR1 5 6 %.11fk\n',data(5));
+fprintf(fileID, '* R5\nR5 5 6 %.11fk\n\n',data(5));
 
 %R6
-fprintf(fileID, '* R6\nR1 0 aldr %.11fk\n',data(6));
+fprintf(fileID, '* R6\nR6 0 aldr %.11fk\n\n',data(6));
 
 % extra voltage source to measure current
-fprintf(fileID, '* Extra voltage source\nValdr aldr 7 0V\n');
+fprintf(fileID, '* Extra voltage source\nValdr aldr 7 0V\n\n');
 
 %R7
-fprintf(fileID, '* R7\nR1 7 8 %.11fk\n',data(7));
+fprintf(fileID, '* R7\nR7 7 8 %.11fk\n\n',data(7));
 
 %Ib dependent current source
-fprintf(fileID, '* Ib dependent current source\nGb 6 3 (2,4) %.11fm\n',data(10));
+fprintf(fileID, '* Ib dependent current source\nGb 6 3 (2,5) %.11fm\n\n',data(10));
 
 %Vc dependent supply voltage
-fprintf(fileID, '* Vd dependent supply voltage\nHc 5 8 Valdr %.11fk\n',data(11));
+fprintf(fileID, '* Vd dependent supply voltage\nHc 5 8 Valdr %.11fk\n\n',data(11));
 
 % Vs supply voltage
-fprintf(fileID, '* Vs supply voltage\nHc 1 0 %.11fV\n',data(8));
+fprintf(fileID, '* Vs supply voltage\nVs 1 0 %.11fV\n\n',data(8));
 
 % Analysis settings
 fprintf(fileID, '.control\n\nop\n\necho "********************************************"\necho  "Operating point"\necho "********************************************"\n\n\necho  "op_TAB"\nprint all\necho  "op_END"\n\nquit\n.endc\n\n.end\n');
 fclose(fileID); % close circ 1
 
+
 %% Circ2
 fileID = fopen('../sim/circ2.net','w');
    
 %R1
-fprintf(fileID, '* R1\nR1 1 2 %.11fk\n',data(1));
+fprintf(fileID, '* R1\nR1 1 2 %.11fk\n\n',data(1));
 
 %R2
-fprintf(fileID, '* R2\nR1 2 3 %.11fk\n',data(2));
+fprintf(fileID, '* R2\nR2 2 3 %.11fk\n\n',data(2));
 
 %R3
-fprintf(fileID, '* R3\nR1 2 5 %.11fk\n',data(3));
+fprintf(fileID, '* R3\nR3 2 5 %.11fk\n\n',data(3));
 
 %R4
-fprintf(fileID, '* R4\nR1 0 5 %.11fk\n',data(4));
+fprintf(fileID, '* R4\nR4 0 5 %.11fk\n\n',data(4));
 
 %R5
-fprintf(fileID, '* R5\nR1 5 6 %.11fk\n',data(5));
+fprintf(fileID, '* R5\nR5 5 6 %.11fk\n\n',data(5));
 
 %R6
-fprintf(fileID, '* R6\nR1 0 aldr %.11fk\n',data(6));
+fprintf(fileID, '* R6\nR6 0 aldr %.11fk\n\n',data(6));
 
 % extra voltage source to measure current
-fprintf(fileID, '* Extra voltage source\nValdr aldr 7 0V\n');
+fprintf(fileID, '* Extra voltage source\nValdr aldr 7 0V\n\n');
 
 %R7
-fprintf(fileID, '* R7\nR1 7 8 %.11fk\n',data(7));
+fprintf(fileID, '* R7\nR7 7 8 %.11fk\n\n',data(7));
 
 %Ib dependent current source
-fprintf(fileID, '* Ib dependent current source\nGb 6 3 (2,4) %.11fm\n',data(10));
+fprintf(fileID, '* Ib dependent current source\nGb 6 3 (2,5) %.11fm\n\n',data(10));
 
 %Vc dependent supply voltage
-fprintf(fileID, '* Vd dependent supply voltage\nHc 5 8 Valdr %.11fk\n',data(11));
+fprintf(fileID, '* Vd dependent supply voltage\nHc 5 8 Valdr %.11fk\n\n',data(11));
 
 % Vs supply voltage
-fprintf(fileID, '* Vs supply voltage\nHc 1 0 %.11fV\n',0);
+fprintf(fileID, '* Vs supply voltage\nVs 1 0 %.11fV\n\n',0);
 
 % Replacing capacitor with a supply voltage
-fprintf(fileID, '* Va supply voltage\nHc 6 8 %.11fV\n',HenriqueMagicNumber);
+fprintf(fileID, '* Va supply voltage\nVcond 6 8 %.11fV\n\n',HenriqueMagicNumber);
 
 % Analysis settings
 fprintf(fileID, '.control\n\nop\n\necho "********************************************"\necho  "Operating point"\necho "********************************************"\n\n\necho  "op_TAB"\nprint all\necho  "op_END"\n\nquit\n.endc\n\n.end\n');
@@ -95,43 +100,43 @@ fclose(fileID); % close circ 2
 fileID = fopen('../sim/circ3.net','w');
    
 %R1
-fprintf(fileID, '* R1\nR1 1 2 %.11fk\n',data(1));
+fprintf(fileID, '* R1\nR1 1 2 %.11fk\n\n',data(1));
 
 %R2
-fprintf(fileID, '* R2\nR1 2 3 %.11fk\n',data(2));
+fprintf(fileID, '* R2\nR2 2 3 %.11fk\n\n',data(2));
 
 %R3
-fprintf(fileID, '* R3\nR1 2 5 %.11fk\n',data(3));
+fprintf(fileID, '* R3\nR3 2 5 %.11fk\n\n',data(3));
 
 %R4
-fprintf(fileID, '* R4\nR1 0 5 %.11fk\n',data(4));
+fprintf(fileID, '* R4\nR4 0 5 %.11fk\n\n',data(4));
 
 %R5
-fprintf(fileID, '* R5\nR1 5 6 %.11fk\n',data(5));
+fprintf(fileID, '* R5\nR5 5 6 %.11fk\n\n',data(5));
 
 %R6
-fprintf(fileID, '* R6\nR1 0 aldr %.11fk\n',data(6));
+fprintf(fileID, '* R6\nR6 0 aldr %.11fk\n\n',data(6));
 
 % extra voltage source to measure current
-fprintf(fileID, '* Extra voltage source\nValdr aldr 7 0V\n');
+fprintf(fileID, '* Extra voltage source\nValdr aldr 7 0V\n\n');
 
 %R7
-fprintf(fileID, '* R7\nR1 7 8 %.11fk\n',data(7));
+fprintf(fileID, '* R7\nR7 7 8 %.11fk\n\n',data(7));
 
 %Ib dependent current source
-fprintf(fileID, '* Ib dependent current source\nGb 6 3 (2,4) %.11fm\n',data(10));
+fprintf(fileID, '* Ib dependent current source\nGb 6 3 (2,5) %.11fm\n\n',data(10));
 
 %Vc dependent supply voltage
-fprintf(fileID, '* Vd dependent supply voltage\nHc 5 8 Valdr %.11fk\n',data(11));
+fprintf(fileID, '* Vd dependent supply voltage\nHc 5 8 Valdr %.11fk\n\n',data(11));
 
 % Vs supply voltage
-fprintf(fileID, '* Vs supply voltage\nHc 1 0 %.11fV\n',0);
+fprintf(fileID, '* Vs supply voltage\nVs 1 0 %.11fV\n\n',0);
 
 % Capacitor
-fprintf(fileID, '* Capacitor\nCb 6 8 %.11%fuF\n',data(9));
+fprintf(fileID, '* Capacitor\nCb 6 8 %.11fuF\n\n',data(9));
 
 % Analysis settings
-fprintf(fileID, 'echo "********************************************"\necho  "Transient analysis"\necho "********************************************"\n.ic v(6)= %d v(8)= %d\ntran 1e-5 20e-3\n\nhardcopy trans.ps v(V6) v(base)\necho trans_FIG\n\nquit\n.endc\n\n.end\n',numero2,numero3);
+fprintf(fileID, '.end\n\n.op\n\n.ic v(6)= %d v(8)= %d\n\n.end\n\n.control\n\necho "********************************************"\n\necho  "Transient analysis"\n\necho "********************************************"\n\ntran 1e-5 20e-3\n\nhardcopy trans.ps v(6) v(base)\n\necho trans_FIG\n\nquit\n\n.endc\n',numero2,numero3);
 fclose(fileID); % close circ 3
 
 
