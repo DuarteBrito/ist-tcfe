@@ -58,7 +58,19 @@ B1 = [Vs;Z;Z;Z;Z;Z;Z];
 
 f1 = A1\B1;
 res1 = subs(f1,{G1, G2, G3, G4,G5, G6, G7,Vs, Kb, Kd},{1/data(1), 1/data(2), 1/data(3), 1/data(4),1/data(5), 1/data(6), 1/data(7), data(8), data(10), data(11)});
+res1=double(res1)
 Vxfrom1 = res1(5)-res1(7);
+
+fidNos = fopen("resultados1.txt","w");
+fprintf(fidNos," ,V (V)\n");
+fprintf(fidNos,"V1,%f\n",res1(1));
+fprintf(fidNos,"V2,%f\n",res1(2));
+fprintf(fidNos,"V3,%f\n",res1(3));
+fprintf(fidNos,"V5,%f\n",res1(4));
+fprintf(fidNos,"V6,%f\n",res1(5));
+fprintf(fidNos,"V7,%f\n",res1(6));
+fprintf(fidNos,"V8,%f\n",res1(7));
+fclose(fidNos);
 
 %% circuit 2
 syms Vx
@@ -113,8 +125,7 @@ A3 = [U ,Z,Z,Z,Z,Z,Z;
 B3 = [Vs;Z;Z;Z;Z;Z;Z];
 
 f3 = A3\B3;
-res3 = subs(f3,{G1, G2, G3, G4,G5, G6, G7,Vs, C, Kb, Kd, w},{1/data(1), 1/data(2), 1/data(3), 1/data(4),1/data(5), 1/data(6), 1/data(7), exp(-1i*(pi/2)),data(9)*1e-6, data(10), data(11), W});
-
+res3 = subs(f3,{G1, G2, G3, G4,G5, G6, G7,Vs, C, Kb, Kd, w},{(1/data(1))*1e-3, (1/data(2))*1e-3, (1/data(3))*1e-3, (1/data(4))*1e-3,(1/data(5))*1e-3, (1/data(6))*1e-3, (1/data(7))*1e-3, exp(-1i*(pi/2)),data(9)*1e-6, (data(10))*1e3, (data(11))*1e-3, W});
 res3 = double(res3);
 
 V_circ3 = abs(res3);

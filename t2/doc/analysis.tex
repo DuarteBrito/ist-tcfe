@@ -35,30 +35,119 @@ $$ I_D = I_d $$
 After doing some algebra, we can get the following system of equations. After that, 
 we can solve it by enquadrating it in a matriz like shown bellow:
 
+
+\vspace{0.5cm}
+Equação do circuito 1
 \vspace{0.5cm}
 
 \[
 \begin{bmatrix}
-R_1 + R_3 + R_4 & R_3 & R_4 & 0\\
-K_b * R_3 & K_b * R_3 - 1 & 0 & 0\\
-R_4 & 0 & R_6 - K_c + R_7 - R_4 & 0\\
-0 & 0 & 0 & 1\\
+1 & 0 & 0 & 0 & 0 & 0 & 0\\
+G_1 & -G_1-G_2-G_3 & G_2 & G_3 &  0 & 0 & 0\\
+0 & G_2+K_b & -G_2 & -K_b & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & K_d*G_6 & -1\\
+0 & -K_b & 0 & G_5+K_b & -G_5 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & -G_6 - G_7 & G_7\\
+%G_1 & -G_1 & 0 & -G_4 & 0 & -G_6 & 0\\
+0 & G3 & 0 & -G4-G5-G3 & G5 & G7 & -G7\\
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-I_A\\
-I_B\\
-I_C\\
-I_D\\
+V_1\\
+V_2\\
+V_3\\
+V_5\\
+V_6\\
+V_7\\
+V_8\\
 \end{bmatrix}
 =
 \begin{bmatrix}
-V_a\\
+V_s\\
 0\\
 0\\
-I_d\\
+0\\
+0\\
+0\\
+0\\
 \end{bmatrix}
 \]
+
+
+\vspace{0.5cm}
+Equação do circuito 2
+\vspace{0.5cm}
+
+\[
+\begin{bmatrix}
+-G_1-G_2-G_3 & G_2 & G_3 &  0 & 0 & 0\\
+0 & G_2 + K_b & -G_2 & -K_b & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & K_d*G_6 & -1\\
+0 & 0 & 0 & 1 & 0 & -1\\
+0 & 0 & 0 & 0 & -G_6-G_7 & G_7\\
+G_3-K_b & 0 & -G_4 - G_3+K_b & 0 & G_7 & -G_7\\
+
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+V_2\\
+V_3\\
+V_5\\
+V_6\\
+V_7\\
+V_8\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\
+0\\
+0\\
+Vx\\
+0\\
+0\\
+\end{bmatrix}
+\]
+
+
+\vspace{0.5cm}
+Equação do circuito 3
+\vspace{0.5cm}
+
+\[
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0\\
+G_1 & -G_1-G_2-G_3 & G_2 & G_3 & 0 & 0 & 0\\
+0 & G_2+K_b & -G_2 & -K_b & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & K_d*G_6 & -1\\
+0 & -K_b & 0 & G_5+K_b & -G_5-j*w*C & 0 & j*w*C\\
+0 & 0 & 0 & 0 & 0 & -G_6-G_7 & G_7\\
+%G_1 & -G_1 & 0 & -G_4 & 0 & -G_6 & 0\\
+0 & G3 & 0 & -G4-G5-G3 & G5+j*w*C & G7 & -G7-j*w*C \\
+\end{bmatrix}
+\]
+\[
+\cdot
+\begin{bmatrix}
+\tilde{V}_1\\
+\tilde{V}_2\\
+\tilde{V}_3\\
+\tilde{V}_5\\
+\tilde{V}_6\\
+\tilde{V}_7\\
+\tilde{V}_8\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\tilde{V}_s\\
+0\\
+0\\
+0\\
+0\\
+0\\
+0\\
+\end{bmatrix}
+\]
+
 
 \vspace{0.5cm}
 

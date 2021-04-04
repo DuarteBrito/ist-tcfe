@@ -7,6 +7,8 @@ all: ngspice1.log ngspice2.log ngspice3.log ngspice4.log
 	sed -n '/^circ2_TAB/,/^circ2_END/{p;/^circ2_END/q}' ngspice2.log | grep -v circ2_TAB | grep -v circ2_END | grep -v '#' | sed 's/\=/\&/g' | sed 's/$$/\\\\ \\hline/g' > circ2_tab.tex;
 	ps2pdf trans3.ps
 	ps2pdf trans4.ps
+	ps2pdf acm.ps
+	ps2pdf acp.ps
 
 ngspice1.log: ../sim/circ1.net
 	ngspice -b $< -o $@
