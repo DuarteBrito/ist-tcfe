@@ -1,0 +1,63 @@
+*
+* NGSPICE simulation script
+* Lab1
+*
+
+* forces current values to be saved
+.options savecurrents
+
+* Va supply voltage
+Vcc 0 1 0V
+*V6-v8 supply voltage
+Vc6-8 6 8 (V6-V8)V
+
+* Test supply voltage
+V6 9 6 0V
+
+* Vc dependent supply voltage
+Hc 4 7 V6 8.10223845988k
+
+* Id current source
+Id 7 5 1.0053213836mA
+
+* Ib dependent current source 
+Gb 5 3 (2,4) 7.26693007101m
+
+* R1
+R1 1 2 1.04944227714k
+
+* R2
+R2 3 2 2.06296295698k
+
+* R3
+R3 2 4 3.07855037163k
+
+* R4
+R4 4 0 4.04814283444k 
+
+* R5
+R5 4 5 3.03583837907k
+
+* R6
+R6 0 9 2.01824745844k
+
+* R7
+R7 6 7 1.04357678508k
+
+.control
+
+op
+
+echo "********************************************"
+echo  "Operating point"
+echo "********************************************"
+
+
+echo  "op_TAB"
+print all
+echo  "op_END"
+
+quit
+.endc
+
+.end
