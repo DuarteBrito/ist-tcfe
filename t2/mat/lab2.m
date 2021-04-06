@@ -1,13 +1,11 @@
 close all
 clear all
-
+format longG
 pkg load symbolic
 
 %% getting initial data
 data = importdata('../data.txt',"=",8);
-%data = importdata('data.txt',"=",8);
 data = data.data;
-%disp(data)
 
 %% MATLAB   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -16,197 +14,234 @@ data = data.data;
 
 %% chamar variáveis
 
-%pkg load symbolic
+G1 = 1/data(1)*1e-3;
+G2 = 1/data(2)*1e-3;
+G3 = 1/data(3)*1e-3;
+G4 = 1/data(4)*1e-3;
+G5 = 1/data(5)*1e-3;
+G6 = 1/data(6)*1e-3;
+G7 = 1/data(7)*1e-3;
+Vs = data(8);
+C = data(9)*1e-6;
+Kb = data(10)*1e-3;
+Kd = data(11)*1e3;
 
-syms G1
-syms G2
-syms G3
-syms G4
-syms G5
-syms G6
-syms G7
-syms R1
-syms R2
-syms R3
-syms R4
-syms R5
-syms R6
-syms R7
-syms Vs
-syms Kb
-syms Kd
-syms Id
-
-Z = vpa(0.0);
-U = vpa(1.0);
-
-data = [1.04944227714 , 2.06296295698, 3.07855037163, 4.04814283444, 3.03583837907, 2.01824745844, 1.04357678508,  5.07638677695, 1.0053213836, 7.26693007101, 8.10223845988];
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
  %% circuit 1
-    % V1 V2 V3 V5 V6 V7 V8
-A1 = [U ,Z,Z,Z,Z,Z,Z;
-    G1,-G1-G2-G3, G2,G3, Z,Z,Z; 
-    Z,+Kb+G2,-G2, -Kb, Z, Z,Z; %
-    Z, Z,Z,U,Z,Kd*G6, -U;
-    Z,-Kb,Z,G5+Kb,-G5, Z, Z;
-    Z,Z,Z,Z,Z,-G6-G7,G7;
-    G1,-G1,Z,-G4,Z,-G6,Z];
-    %Z,G3,-G3,-G4-G5,G5,G7,-G7];
- 
-B1 = [Vs;Z;Z;Z;Z;Z;Z];
+            %V1 V2 V3 V5 V6 V7 V8
+circ1_no1 = [1,0,0,0,0,0,0];
+circ1_no2 = [G1,-G1-G2-G3,G2,G3,0,0,0];
+circ1_no3 = [0,G2+Kb,-G2,-Kb,0,0,0];
+circ1_no5 = [0,0,0,1,0,Kd*G6,-1];
+circ1_no6 = [0,-Kb,0,G5+Kb,-G5,0,0];
+circ1_no7 = [0,0,0,0,0,-G6-G7,G7];
+circ1_no8 = [0,G3,0,-G3-G4-G5,G5,G7,-G7];
 
-f1 = A1\B1;
-res1 = subs(f1,{G1, G2, G3, G4,G5, G6, G7,Vs, Kb, Kd},{1/data(1), 1/data(2), 1/data(3), 1/data(4),1/data(5), 1/data(6), 1/data(7), data(8), data(10), data(11)});
-res1=double(res1)
-Vxfrom1 = res1(5)-res1(7);
+eq_circ1 = [circ1_no1;circ1_no2;circ1_no3;circ1_no5;circ1_no6;circ1_no7;circ1_no8];
+b_circ1 = [Vs;0;0;0;0;0;0];
 
-fidNos = fopen("resultados1.txt","w");
-fprintf(fidNos," ,V (V)\n");
-fprintf(fidNos,"V1,%f\n",res1(1));
-fprintf(fidNos,"V2,%f\n",res1(2));
-fprintf(fidNos,"V3,%f\n",res1(3));
-fprintf(fidNos,"V5,%f\n",res1(4));
-fprintf(fidNos,"V6,%f\n",res1(5));
-fprintf(fidNos,"V7,%f\n",res1(6));
-fprintf(fidNos,"V8,%f\n",res1(7));
-fclose(fidNos);
+res1 = eq_circ1\b_circ1;
 
-%% circuit 2
-syms Vx
-    %V2 V3 V5 V6 V7 V8
-A2 = [-G1-G2-G3, G2,G3, Z,Z,Z; 
-    +Kb+G2,-G2, -Kb, Z, Z,Z; %
-    Z,Z,U,Z,Kd*G6, -U;
-    Z,Z,Z,U,Z,-U;
-    Z,Z,Z,Z, -G6-G7, G7;
-    G3-Kb,Z,-G4-G3-Kb,Z,G7,-G7];
-    %-G1,Z,-G4,Z,-G6,Z];
 
-B2 = [Z;Z;Z;Vx;Z;Z]; %VX
-f2 = A2\B2;
-res2 = subs(f2,{G1, G2, G3, G4,G5, G6, G7,Vs, Kb, Kd, Vx},{1/data(1), 1/data(2), 1/data(3), 1/data(4),1/data(5), 1/data(6), 1/data(7), 0, data(10), data(11), Vxfrom1}); 
+fidCirc1 = fopen("resultados1.txt","w");
+fprintf(fidCirc1," ,V (V)\n");
+fprintf(fidCirc1,"V1,%f\n",res1(1));
+fprintf(fidCirc1,"V2,%f\n",res1(2));
+fprintf(fidCirc1,"V3,%f\n",res1(3));
+fprintf(fidCirc1,"V5,%f\n",res1(4));
+fprintf(fidCirc1,"V6,%f\n",res1(5));
+fprintf(fidCirc1,"V7,%f\n",res1(6));
+fprintf(fidCirc1,"V8,%f\n",res1(7));
+fclose(fidCirc1);
 
-res2 = double(res2);
+Vxfrom1 = res1(5)-res1(7);  %solucao para o ngspice
+
+ %% circuit 2
+Vx = res1(5)-res1(7);
+            %V2 V3 V5 V6 V7 V8
+circ2_no2 = [-G1-G2-G3,G2,G3,0,0,0];
+circ2_no3 = [G2+Kb,-G2,-Kb,0,0,0];
+circ2_no5 = [0,0,1,0,Kd*G6,-1];
+circ2_no6 = [0,0,0,1,0,-1];
+circ3_no7 = [0,0,0,0,-G6-G7,G7];
+circ2_no8 = [G3-Kb,0,-G3-G4+Kb,0,G7,-G7];
+
+eq_circ2 = [circ2_no2;circ2_no3;circ2_no5;circ2_no6;circ3_no7;circ2_no8];
+b_circ2 = [0;0;0;Vx;0;0];
+
+res2 = eq_circ2\b_circ2;
 
 Ix = (res2(4)-res2(3))/data(5) + data(10)*(res2(1)-res2(3));
 R = (res2(4)-res2(6))/Ix;
 
-t = 0:0.1e-5:20e-3;
-V_6n = (res2(4)-res2(6))*exp((-1/(R * data(9)*1e-3))*t);
+t_circ2 = 0:0.1e-5:20e-3;
+V_6n = (res2(4)-res2(6))*exp((-1/(R * data(9)*1e-3))*t_circ2);
 
-n_fronteira6 = res2(4);
-n_fronteira8 = res2(6);
 
 figure
-plot(t,V_6n)
+plot(t_circ2,V_6n)
 
 title('Natural Solution')
 xlabel('t [s]')
 ylabel('V_6_n [V]')
+legend('V_6_n')
 print ("circ2.png", "-dpng");
 
+fidCirc2 = fopen("resultados2.txt","w");
+fprintf(fidCirc2," ,V (V)\n");
+fprintf(fidCirc2,"V2,%f\n",res2(1));
+fprintf(fidCirc2,"V3,%f\n",res2(2));
+fprintf(fidCirc2,"V5,%f\n",res2(3));
+fprintf(fidCirc2,"V6,%f\n",res2(4));
+fprintf(fidCirc2,"V7,%f\n",res2(5));
+fprintf(fidCirc2,"V8,%f\n",res2(6));
+fclose(fidCirc2);
+
+%valores para o ngspice
+n_fronteira6 = res2(4);
+n_fronteira8 = res2(6);
+
+
+
 %% circuit 3
-syms w
-syms C
-Im = vpa(1i);
-freq = 1e3;
-W = 2*pi*freq;
-% circuito 4
-    % V~1 V~2 V~3 V~5 V~6 V~7 V~8
-A3 = [U ,Z,Z,Z,Z,Z,Z;
-    G1,-G1-G2-G3, G2,G3, Z,Z,Z; 
-    Z,+Kb+G2,-G2, -Kb, Z, Z,Z; %
-    Z, Z,Z,U,Z,Kd*G6, -U;
-    Z,-Kb,Z,G5+Kb,-G5-Im*w*C, Z, Im*w*C; %
-    Z,Z,Z,Z,Z,-G6-G7,-G7;
-    Z,G3,-G3,-G4-G5,G5+Im*w*C,G7,-G7-Im*w*C];
- 
-B3 = [Vs;Z;Z;Z;Z;Z;Z];
+f_circ3 = 1000;
+w_circ3 = 2*pi*f_circ3;
+            %~V2 ~V3 ~V5 ~V6 ~V7 ~V8
+circ3_no1 = [1, 0, 0, 0, 0, 0, 0];
+circ3_no2 = [-G1, G1 + G3+G2, -G2, -G3, 0, 0, 0];
+circ3_no3 = [0, Kb+G2, -G2, -Kb, 0, 0, 0];
+circ3_no5 = [0, 0, 0, 1, 0, Kd*G6, -1];
+circ3_no6 = [0, Kb, 0, -G5-Kb, G5+1i*w_circ3*C, 0, -1i*w_circ3*C];
+circ3_no7 = [0, 0, 0, 0, 0, -G6-G7, G7];
+circ3_no8 = [0, -G3, 0, G3+G4+G5, -1i*w_circ3*C-G5, -G7, G7+1i*w_circ3*C];
 
-f3 = A3\B3;
-res3 = subs(f3,{G1, G2, G3, G4,G5, G6, G7,Vs, C, Kb, Kd, w},{(1/data(1))*1e-3, (1/data(2))*1e-3, (1/data(3))*1e-3, (1/data(4))*1e-3,(1/data(5))*1e-3, (1/data(6))*1e-3, (1/data(7))*1e-3, exp(-1i*(pi/2)),data(9)*1e-6, (data(10))*1e3, (data(11))*1e-3, W});
-res3 = double(res3);
+eq_circ3 = [circ3_no1; circ3_no2; circ3_no3; circ3_no5; circ3_no6; circ3_no7; circ3_no8];
 
-V_circ3 = abs(res3);
-angle_circ3 = angle(res3);
+b_circ3 = [exp(-1i*pi/2); 0; 0; 0; 0; 0; 0];
 
-t = 0:0.1e-5:20e-3;
-% W*t 
-% angle_circ3(5)
-% exp(1i*(W*t-  angle_circ3(5)));
-%exp(1i*(W*t - angle_circ3(5)))
-V_6f = real(V_circ3(5) * exp(1i*(W*t - angle_circ3(5)))); 
+res3 = eq_circ3\b_circ3;
 
+phase = angle(res3(5));
+amplitude = abs(res3(5));
+
+t_circ3 = 0:0.1e-5:20e-3;
+V_6f = real(amplitude * exp(-1i*(w_circ3*t_circ3 + phase))); 
 
 figure
-plot(t,real(V_6f))
+plot(t_circ3,V_6f)
 title('Forced Solution')
+legend('V_6_f')
 xlabel('t [s]')
 ylabel('V_6_f [V]')
 print ("circ3.png", "-dpng");
 
+fidtot2 = fopen("resultados4.txt","w");
+fprintf(fidtot2," ,V (V)\n");
+fprintf(fidtot2,"V1,%f\n",real(res3(1)));
+fprintf(fidtot2,"V2,%f\n",real(res3(2)));
+fprintf(fidtot2,"V3,%f\n",real(res3(3)));
+fprintf(fidtot2,"V5,%f\n",real(res3(4)));
+fprintf(fidtot2,"V6,%f\n",real(res3(5)));
+fprintf(fidtot2,"V7,%f\n",real(res3(6)));
+fprintf(fidtot2,"V8,%f\n",real(res3(7)));
+fclose(fidtot2);
 
 %% ponto 5
-freq = 1e3;
+% somar as duas solucoes anteriores
 
-t_ = -5e-3:0.1e-5:0-0.1e-5;
-vs_menor = zeros(1,length(t_));
-v_6_menor = zeros(1,length(t_));
+t_menor = -5e-3:0.1e-5:0-0.1e-5;
+vs_menor = ones(1,length(t_menor))*Vs;
+v_6_menor = ones(1,length(t_menor))*double(res1(5));
 
-for n=1:length(t_)
-    vs_menor(n) = data(8);
-    v_6_menor(n) = double(res1(5));
-end
-
-t = 0:0.1e-5:20e-3;
-vs_maior = sin(2*pi*freq*t);
+t_maior = 0:0.1e-5:20e-3;
+vs_maior = sin(2*pi*f_circ3*t_maior);
 v_6_maior = V_6n + V_6f;
 
-t = [t_ t];
-vs = [vs_menor vs_maior];
-v_6 = [v_6_menor v_6_maior];
-    
+t_p5 = [t_menor t_maior];
+vs_p5 = [vs_menor vs_maior];
+v_6_p5 = [v_6_menor v_6_maior];
+
 figure
-plot(t,vs, t,v_6)
+plot(t_p5,vs_p5, t_p5,v_6_p5)
 title('Final Solution')
+legend('V_s', 'V_6')
 xlabel('t [s]')
 ylabel('V [V]')
 print ("tot_ponto5.png", "-dpng");
 
 
-
 %% ponto 6
-V_in = exp(-1i *pi/2);
-trans_w = subs(f3,{G1, G2, G3, G4,G5, G6, G7,Vs, C, Kb, Kd},{1/data(1), 1/data(2), 1/data(3), 1/data(4),1/data(5), 1/data(6), 1/data(7), exp(-1i*(pi/2)),data(9)*1e-6, data(10), data(11)});
-trans_w_6 = trans_w(5);
-trans_w_8 = trans_w(7);
-w_s=0.1:49999.995:1e6;
-T1 = zeros(1, length(w_s));
-T2 = T1;
-for n=1:length(w_s)
-    T1(n) = double(subs(trans_w_6,{w},{w_s(n)}))/V_in;
-    T2(n) = double(subs(trans_w_6,{w},{w_s(n)})-subs(trans_w_8,{w},{w_s(n)}))/V_in;
+f_s = logspace(-1, 6, 100);
+v6_p6 = zeros(1,100);
+v6_p6 = zeros(1,100);
+v_in = exp(-1i*pi/2);
+
+for k = 1:100
+    
+w_p6 = 2*pi*f_s(k);
+
+          %~V2 ~V3 ~V5 ~V6 ~V7 ~V8
+p6_no1 = [1, 0, 0, 0, 0, 0, 0];
+p6_no2 = [-G1, G1 + G3+G2, -G2, -G3, 0, 0, 0];
+p6_no3 = [0, Kb+G2, -G2, -Kb, 0, 0, 0];
+p6_no5 = [0, 0, 0, 1, 0, Kd*G6, -1];
+p6_no6 = [0, Kb, 0, -G5-Kb, G5+1i*w_p6*C, 0, -1i*w_p6*C];
+p6_no7 = [0, 0, 0, 0, 0, -G6-G7, G7];
+p6_no8 = [0, -G3, 0, G3+G4+G5, -1i*w_p6*C-G5, -G7, G7+1i*w_p6*C];
+
+eq_p6 = [p6_no1;p6_no2; p6_no3; p6_no5; p6_no6; p6_no7; p6_no8];
+
+b_p6 = [exp(-1i*pi/2); 0; 0; 0; 0; 0; 0];
+
+res6 = eq_p6\b_p6;
+
+v6_p6(k) = res6(5);
+v6_p8(k) = res6(7);
+
 end
-%T = j*w*L ./(R + j*w*L)
+
+
+T6 = v6_p6/v_in;
+
+Tc = (v6_p6-v6_p8)/v_in;
+
+Tin = ones(1,100)*v_in/v_in;
+
 
 figure
-plot (log10(w_s/2/pi), 20*log10(abs(T1)), 20*log10(abs(T2)), 20*log10(abs(V_in)));
-% plot (log10(w_s/2/pi), 20*log10(abs(T2)));
-% plot (log10(w_s/2/pi), 20*log10(abs(V_in)));
-xlabel ("log10(w) [rad/s]");
+hold on
+plot (log10(f_s), 20*log10(abs(T6)));
+plot (log10(f_s), 20*log10(abs(Tc)));
+plot (log10(f_s), 20*log10(abs(Tin)));
+ylim([-10, 10])
+xlabel ("log10(f) [Hz]");
 ylabel ("|T| dB");
+legend('V_6','V_c','V_s')
+hold off
+print ("T_abs_zoom.png", "-dpng");
+
+figure
+hold on
+plot (log10(f_s), 20*log10(abs(T6)));
+plot (log10(f_s), 20*log10(abs(Tc)));
+plot (log10(f_s), 20*log10(abs(Tin)));
+xlabel ("log10(f) [Hz]");
+ylabel ("|T| dB");
+legend('V_6','V_c','V_s')
+hold off
 print ("T_abs.png", "-dpng");
 
 figure
 hold on
-plot (log10(w_s/2/pi), 20*log10(angle(T1)*180/pi));
-plot (log10(w_s/2/pi), 20*log10(angle(T2)*180/pi));
-plot (log10(w_s/2/pi), 20*log10(angle(V_in)*180/pi));
-xlabel ("log10(w) [rad/s]");
+plot (log10(f_s), ((angle(T6))*180/pi));
+plot (log10(f_s), ((angle(Tc)))*180/pi);
+plot (log10(f_s), (angle(Tin)*180/pi));
+xlabel ("log10(f) [Hz]");
 ylabel ("Phase (degrees)");
+legend('V_6','V_c','V_s')
 hold off
 print ("T_angle.png", "-dpng");
+
 
 
 
@@ -339,7 +374,11 @@ fprintf(fileID, '* Vs supply voltage\nVs 1 0 %.11fV\n\n',0);
 fprintf(fileID, '* Capacitor\nCb 6 8 %.11fuF\n\n',data(9));
 
 % Analysis settings
-fprintf(fileID, '.end\n\n.op\n\n.ic v(6)= %d v(8)= %d\n\n.end\n\n.control\n\necho "********************************************"\n\necho  "Transient analysis"\n\necho "********************************************"\n\ntran 1e-5 20e-3\n\nhardcopy trans3.ps v(6)\n\necho trans3_FIG\n\nquit\n\n.endc\n',double(n_fronteira6),double(n_fronteira8));
+fprintf(fileID, '.end\n\n.op\n\n.ic v(6)= %d v(8)= %d\n\n.end\n\n.control\n\n',double(n_fronteira6),double(n_fronteira8));
+%Changing graph colours
+fprintf(fileID,'*makes plots in color\nset hcopypscolor=0\nset color0=white\nset color1=black\nset color2=red\nset color3=blue\nset color4=violet\nset color5=rgb:3/8/0\nset color6=rgb:4/0/0\n\n');
+% printing out the analysis
+fprintf(fileID,'echo "********************************************"\n\necho  "Transient analysis"\n\necho "********************************************"\n\ntran 1e-5 20e-3\n\nhardcopy trans3.ps v(6)\n\necho trans3_FIG\n\nquit\n\n.endc\n');
 fclose(fileID); % close circ 3
 
 
@@ -383,10 +422,14 @@ fprintf(fileID, '* Vs supply voltage\nVs 1 0 0.0 ac 1.0 sin(0 1 1k)\n\n');
 fprintf(fileID, '* Capacitor\nCb 6 8 %.11fuF\n\n',data(9));
 
 % Transient analysis settings
-fprintf(fileID, '.end\n\n.op\n\n.ic v(6)= %d v(8)= %d\n\n.end\n\n.control\n\necho "********************************************"\n\necho  "Transient analysis"\n\necho "********************************************"\n\ntran 1e-5 20e-3\n\nhardcopy trans4.ps v(6) v(1)\n\necho trans4_FIG\n\n',double(n_fronteira6),double(n_fronteira8));
+fprintf(fileID, '.end\n\n.op\n\n.ic v(6)= %d v(8)= %d\n\n.end\n\n.control\n\n',double(n_fronteira6),double(n_fronteira8));
+%Changing graph colours
+fprintf(fileID,'*makes plots in color\nset hcopypscolor=0\nset color0=white\nset color1=black\nset color2=red\nset color3=blue\nset color4=violet\nset color5=rgb:3/8/0\nset color6=rgb:4/0/0\n\n');
+%Transient analysis
+fprintf(fileID,'echo "********************************************"\n\necho  "Transient analysis"\n\necho "********************************************"\n\ntran 1e-5 20e-3\n\nhardcopy trans4.ps v(6) v(1)\n\necho trans4_FIG\n\n');
 
 % Frequency analysis settings
-fprintf(fileID,'echo "********************************************"\necho  "Frequency analysis"\necho "********************************************"\n\nac dec 10 0.1 1MEG\n\nhardcopy acm.ps db(v(6)) v(1)\necho acm_FIG\nhardcopy acp.ps v(1)\necho acp_FIG\n\n');
+fprintf(fileID,'echo "********************************************"\necho  "Frequency analysis"\necho "********************************************"\n\nac dec 10 0.1 1MEG\n\nhardcopy acm.ps db(v(6)) db(v(1))\necho acm_FIG\nhardcopy acp.ps 180/PI*phase(v(6)) 180/PI*phase(v(1))\necho acp_FIG\n\n');
 
 %close file
 fprintf(fileID,'quit\n\n.endc\n');
