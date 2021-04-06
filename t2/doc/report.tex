@@ -1,15 +1,9 @@
 
-% ----------------------------------------------------------------------
-%  Set the document class
-% ----------------------------------------------------------------------
+
 \documentclass[11pt,a4paper,twoside]{article}
 
-% ----------------------------------------------------------------------
-% Define external packages, language, margins, fonts and new commands
-% ----------------------------------------------------------------------
-%\input{preamble} 
-\usepackage[utf8]{inputenc}   % <<<<< Linux
-\usepackage[english]{babel} % <<<<< English
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel} 
 \usepackage{notoccite}
 \usepackage[skip=0.5\baselineskip]{caption}
 \hyphenation{GTKWave}
@@ -18,6 +12,9 @@
 \usepackage{amsmath} %Matrix package
 \usepackage{csvsimple} %csv reading package
 \usepackage{authblk} %author information
+\usepackage{caption}
+\usepackage{multicol}
+
 
 \usepackage{graphicx}
 \graphicspath{{./}{../../figlib/}{../mat/}{../sim/}}
@@ -32,8 +29,6 @@
 \def\FontSn{% 12 pt normal
   \usefont{T1}{phv}{m}{n}\fontsize{12pt}{12pt}\selectfont}
 
-% Use Arial font as default
-%
 \renewcommand{\rmdefault}{phv}
 \renewcommand{\sfdefault}{phv}
 \usepackage{geometry}	
@@ -142,11 +137,11 @@
 
 \include{intro}
 
-\include{analysis}
+\include{theoretical_analysis}
 
 \include{simulation}
 
-\input{conclusion}
+\include{conclusion}
 %\cleardoublepage
 
 % ----------------------------------------------------------------------
