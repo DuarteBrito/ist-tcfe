@@ -1,0 +1,84 @@
+* R1
+R1 1 2 %.11fk
+
+* R2
+R2 2 3 %.11fk
+
+* R3
+R3 2 5 %.11fk
+
+* R4
+R4 0 5 %.11fk
+
+* R5
+R5 5 6 %.11fk
+
+* R6
+R6 0 aldr %.11fk
+
+* Extra voltage source
+Valdr aldr 7 0V
+
+* R7
+R7 7 8 %.11fk
+
+* Ib dependent current source
+Gb 6 3 (2,5) %.11fm
+
+* Vd dependent supply voltage
+Hc 5 8 Valdr %.11fk
+
+* Vs supply voltage
+Vs 1 0 0.0 ac 1.0 sin(0 1 1k)
+
+* Capacitor
+Cb 6 8 %.11fuF
+
+.end
+
+.op
+
+.ic v(6)= %d v(8)= %d
+
+.end
+
+.control
+
+*makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
+
+echo "********************************************"
+
+echo  "Transient analysis"
+
+echo "********************************************"
+
+tran 1e-5 20e-3
+
+hardcopy trans4.ps v(6) v(1)
+
+echo trans4_FIG
+
+echo "********************************************"
+echo  "Frequency analysis"
+echo "********************************************"
+
+ac dec 10 0.1 1MEG
+
+hardcopy acm.ps db(v(6)) db(v(1))
+echo acm_FIG
+hardcopy acp.ps 180/PI*phase(v(6)) 180/PI*phase(v(1))
+echo acp_FIG
+
+quit
+
+.endc
+
+
