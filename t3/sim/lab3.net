@@ -1,0 +1,89 @@
+*
+* NGSPICE simulation script
+* Lab3
+*
+
+* forces current values to be saved
+.options savecurrents
+
+******************************************
+
+*Va supply voltage
+Va 0 1 0 SIN(0 230 50 0 0)
+
+*transformer
+F1 1 0 E1 17
+E1 2 0 1 0 0.05882352941
+
+* R1
+R1 3 5 1
+
+* R2
+*R2 6 3 10
+
+* Capacitor
+Ca 3 5 0.000001
+
+* Diode 1
+D1 2 3 Default
+
+* Diode 2
+D2 0 3 Default
+
+* Diode 3
+D3 5 0 Default
+
+* Diode 4
+D4 5 2 Default
+
+* Diode 5
+*D5 4 5 Default
+
+.model Default D
+
+.op
+
+.end
+
+.control
+
+*makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
+
+echo "********************************************"
+
+echo  "Transient analysis"
+
+echo "********************************************"
+ 
+tran 0.0002 1 0.8
+
+echo "info_TAB"
+print mean(v(3)-v(5))
+*print mean(v(3)-v(5)-12)
+print maximum(v(3)-v(5))-minimum(v(3)-v(5))
+echo "info_END"
+
+hardcopy outputvoltage.ps v(2) (v(3)-v(5))
+
+echo outputvoltage_FIG
+
+*echo "********************************************"
+*echo  "Transient analysis"
+*echo "********************************************"
+
+hardcopy detail.ps v(3)-v(5)-12
+echo detail_FIG
+
+quit
+
+.endc
+
+
