@@ -30,7 +30,7 @@ D4 4 2 Default
 
 *Envelope Detector
 * Capacitor
-Ca 3 4 0.0000005
+Ca 3 4 0.000001
 
 *Voltage Regulator
 * R1
@@ -40,55 +40,55 @@ R1 3 5 0.5k
 D5 5 6 Default
 
 * Diode 6
-D5 6 7 Default
+D6 6 7 Default
 
 * Diode 7
-D5 7 8 Default
+D7 7 8 Default
 
 * Diode 8
-D5 8 9 Default
+D8 8 9 Default
 
 * Diode 9
-D5 9 10 Default
+D9 9 10 Default
 
 * Diode 10
-D5 10 11 Default
+D10 10 11 Default
 
 * Diode 11
-D5 11 12 Default
+D11 11 12 Default
 
 * Diode 12
-D5 12 13 Default
+D12 12 13 Default
 
 * Diode 13
-D5 13 14 Default
+D13 13 14 Default
 
 * Diode 14
-D5 14 15 Default
+D14 14 15 Default
 
 * Diode 15
-D5 15 16 Default
+D15 15 16 Default
 
 * Diode 16
-D5 16 17 Default
+D16 16 17 Default
 
 * Diode 17
-D5 17 18 Default
+D17 17 18 Default
 
 * Diode 18
-D5 18 19 Default
+D18 18 19 Default
 
 * Diode 19
-D5 19 20 Default
+D19 19 20 Default
 
 * Diode 20
-D5 20 21 Default
+D20 20 21 Default
 
 * Diode 21
-D5 21 22 Default
+D21 21 22 Default
 
 * Diode 22
-D5 22 4 Default
+D22 22 4 Default
 
 .model Default D
 
@@ -114,7 +114,7 @@ echo  "Transient analysis"
 
 echo "********************************************"
  
-tran 0.0001 1 0.8
+tran 0.0001 2 1.8
 
 echo "info_TAB"
 print mean(v(5)-v(4))
@@ -122,8 +122,8 @@ print mean(v(5)-v(4))
 print maximum(v(5)-v(4))-minimum(v(5)-v(4))
 echo "info_END"
 
-*hardcopy outputvoltage.ps v(2) (v(3)-v(4))
-hardcopy outputvoltage.ps v(2) v(3)-v(4)
+*hardcopy outputvoltage.ps v(2) (v(5)-v(4))
+hardcopy outputvoltage.ps v(2) v(5)-v(4)
 
 echo outputvoltage_FIG
 
