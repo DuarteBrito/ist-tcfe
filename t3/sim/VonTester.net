@@ -9,35 +9,15 @@
 ******************************************
 
 *Va supply voltage
-Va 0 1 0 SIN(0 230 50 0 0)
+Va 2 0 SIN(12 2 50 0 0)
 
 *transformer
-F1 1 0 E1 17
-E1 2 0 1 0 0.05882352941
-
-*Full-wave rectifier circuit
-* Diode 1
-D1 2 3 Default
-
-* Diode 2
-D2 0 3 Default
-
-* Diode 3
-D3 4 0 Default
-
-* Diode 4
-D4 4 2 Default
-
-*Envelope Detector
-* R1
-R1 3 4 1900k
-
-* Capacitor
-Ca 3 4 0.0000005
+*F1 1 0 E1 17
+*E1 2 0 1 0 0.05882352941
 
 *Voltage Regulator
 * R2
-R2 3 5 100k
+R2 2 5 1k
 
 * Diode 5
 D5 5 6 Default
@@ -46,7 +26,7 @@ D5 5 6 Default
 D5 6 7 Default
 
 * Diode 7
-D5 7 4 Default
+D5 7 0 Default
 
 .model Default D
 
@@ -75,13 +55,15 @@ echo "********************************************"
 tran 0.0002 1 0.8
 
 echo "info_TAB"
-print mean(v(3)-v(4))
-*print mean(v(3)-v(4)-12)
-print maximum(v(3)-v(4))-minimum(v(3)-v(4))
+print mean(v(2))
+*print mean(v(2)-12)
+print maximum(v(2))-minimum(v(2))
+print maximum(v(2))
+print maximum(v(2))-minimum(v(2))
 echo "info_END"
 
-*hardcopy outputvoltage.ps v(2) (v(3)-v(4))
-hardcopy outputvoltage.ps v(2) v(3)-v(4)
+*hardcopy outputvoltage.ps v(2) (v(2))
+hardcopy outputvoltage.ps v(2) v(5) v(6)
 
 echo outputvoltage_FIG
 
@@ -89,11 +71,9 @@ echo outputvoltage_FIG
 *echo  "Transient analysis"
 *echo "********************************************"
 
-hardcopy detail.ps v(3)-v(4)-12
+hardcopy detail.ps v(2)-12
 echo detail_FIG
 
 quit
 
 .endc
-
-

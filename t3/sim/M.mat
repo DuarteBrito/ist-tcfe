@@ -1,0 +1,38 @@
+%File made to calculate the M value of the sistem
+%28/4/2021
+
+ndiodes = 7;
+resistors = [1900 100]; %kohm
+capacitors = [0.5]; %uF
+cost = sum(resistors)+ndiodes*0.1+sum(capacitors);
+
+fido = fopen("info_tab.tex","r");
+line1 = fgetl(fido);
+%line1 = erase(str,"");
+line1 = strsplit(line1,"\\");
+mean = strsplit(line1{1},"&");
+mean = mean{2};
+%mean(mean == ' ') = '';
+mean = str2double(mean);
+
+line2 = fgetl(fido);
+line2 = strsplit(line2,"\\");
+ripple = strsplit(line2{1},"&");
+ripple = str2double(ripple{2});
+
+fclose(fido);
+
+M = 1/(cost*(mean+ripple+0.000001));
+
+fidw = fopen("info.tex","w");
+fprintf(fidw,"Parameter & Value\\ \hline");
+fprintf(fidw,"mean & %f\\ \hline",mean);
+fprintf(fidw,"Ripple & %f\\ \hline",ripple);
+fprintf(fidw,"Cost & %f\\ \hline",cost);
+fprintf(fidw,"M & %f\\ \hline",M);
+
+fclose(fidw);
+
+disp(cost);
+disp(M);
+
