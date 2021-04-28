@@ -1,8 +1,8 @@
 %File made to calculate the M value of the sistem
 %28/4/2021
 
-ndiodes = 7;
-resistors = [1900 100]; %kohm
+ndiodes = 22;
+resistors = [0.5]; %kohm
 capacitors = [0.5]; %uF
 cost = sum(resistors)+ndiodes*0.1+sum(capacitors);
 
