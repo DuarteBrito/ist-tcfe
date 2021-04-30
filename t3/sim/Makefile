@@ -10,6 +10,6 @@ ngspice.log: ../sim/lab3.net
 	ngspice $< -o $@
 
 clean:
-	@rm -f *.log *.tex *.pdf *.ps *~ *.csv
+	@rm -f *.log *.tex *.pdf *.ps *~ *.csv lab3OTM.net octave-workspace
 
 .PHONY: all clean
