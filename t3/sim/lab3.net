@@ -12,8 +12,8 @@
 Va 0 1 0 SIN(0 230 50 0 0)
 
 *transformer
-F1 1 0 E1 14
-E1 2 0 1 0 0.07142857143
+F1 1 0 E1 6.673844
+E1 2 0 1 0 0.149838683
 
 *Full-wave rectifier circuit
 * Diode 1
@@ -30,12 +30,13 @@ D4 4 2 Default
 
 *Envelope Detector
 * Capacitor
-Ca 3 4 0.000001
+Ca 3 4 0.000004508784
+.ps = 12
 
 *Voltage Regulator
 * R1
-R1 3 49 1k
-vadrb 49 5 0
+R1 3 420 2.219563k
+valdrb 420 5 0
 
 * Diode 5
 D5 5 6 Default
@@ -80,13 +81,13 @@ D17 17 18 Default
 D18 18 19 Default
 
 * Diode 19
-D19 19 4 Default
+D19 19 20 Default
 
 * Diode 20
-*D20 20 21 Default
+D20 20 21 Default
 
 * Diode 21
-*D21 21 4 Default
+D21 21 4 Default
 
 * Diode 22
 *D22 22 4 Default
@@ -117,16 +118,9 @@ echo "********************************************"
  
 tran 0.0002 2 1.8
 
-echo "i mean"
-print mean(I(vadrb))
-echo "i max"
-print maximum(I(vadrb))
-echo "i min"
-print minimum(I(vadrb))
-echo "v max"
-print maximum(v(5)-v(4))
-echo "v min"
-print minimum(v(5)-v(4))
+print mean(I(valdrb))
+print minimum(I(valdrb))
+print maximum(I(valdrb))
 
 echo "info_TAB"
 print mean(v(5)-v(4))
@@ -135,7 +129,7 @@ print mean(v(5)-v(4)-12)
 echo "info_END"
 
 *hardcopy outputvoltage.ps v(2) (v(5)-v(4))
-hardcopy outputvoltage.ps v(2) v(3)-v(4) v(5)-v(4)
+hardcopy outputvoltage.ps v(2) v(3)-v(4) v(5)-v(4) v(2)-v(0)
 
 echo outputvoltage_FIG
 
@@ -149,6 +143,7 @@ echo detail_FIG
 quit
 
 .endc
+
 
 
 

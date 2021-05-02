@@ -36,7 +36,7 @@ fprintf(fidw,"M & %f\\ \hline\n",M);
 fclose(fidw);
 end
 %ndiodes resistors capacitors
-[cost, M] = evaluate(22, [1], [1]);
+[cost, M] = evaluate(21, [2.219563], [4.508784]);
 
 disp(cost);
 disp(M);

@@ -6,7 +6,7 @@ function [cost, mean, M] = evaluate(ndiodes, N, resistors, capacitors)
 %resistors in a kohm vector (ex:[0.5 1.2])
 %capacitors in a uF vector (ex:[1.2 0.5])
 
-cost = sum(resistors)+ndiodes*0.1+sum(capacitors);
+cost = sum(resistors)+(ndiodes+4)*0.1+sum(capacitors);
 
 fido = fopen("ngspiceOTM.log","r");
 line = fgetl(fido);
@@ -40,37 +40,29 @@ end
 
 function [ndiodes, N, resistors, capacitors] = randomdata(best)
     if sum(best)<0.1
-        ndiodes = 16;
-	N = 17.75;
-        resistors = 0.01;
-        capacitors = 1.5;
+	%starting values
+        ndiodes = 17;
+	N = 20;
+        resistors = 0.1;
+        capacitors = 0.5;
     else
     n = rand();
-    if n< 0
-        ndiodes = abs(best(1) + discrete_rnd([-1 1],[0.5 0.5])(1));
-	N = best(2);
-        resistors = best(3);
-        capacitors = best(4);
 
-    elseif n< 0.1
-        ndiodes = best(1);
-	N = abs(best(2) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
-        resistors = best(3);
-        capacitors = best(4);
+    ndiodes = best(1);
+    %ndiodes = abs(best(1) + discrete_rnd([-1 1],[0.5 0.5])(1));
 
-    elseif n< 0.55
-        ndiodes = best(1);
-	N = best(2);
-        resistors = abs(best(3) + 0.01*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
-        capacitors = best(4);
+    N = abs(best(2) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+    %N = abs(best(2) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
 
-    else
-        ndiodes = best(1);
-	N = best(2);
-        resistors = best(3);
-        capacitors = abs(best(4) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+    resistors = best(3);
+    %resistors = abs(best(3) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+    %resistors = abs(best(3) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+        
+    capacitors = best(4);
+    %capacitors = abs(best(4) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+    %capacitors = abs(best(4) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
 
-    end
+    
     end
 end
 
@@ -85,19 +77,20 @@ function run(ndiodes, N, resistors, capacitors)
     fprintf(fid,"D3 4 0 Default\n");
     fprintf(fid,"D4 4 2 Default\n");
     fprintf(fid,"Ca 3 4 %f\n",capacitors*(10^(-6)));
+    fprintf(fid,"IC=12\n");
     fprintf(fid,"R1 3 5 %fk\n",resistors);
     i = 0;
     while i<ndiodes-1
-        fprintf(fid,"D%i %i %i Default",i+5,i+5,i+6);
+        fprintf(fid,"D%i %i %i Default\n",i+5,i+5,i+6);
         i = i+1;
     end
-    fprintf(fid,"D%i %i %i Default\n",i+6,i+6,4);
+    fprintf(fid,"D%i %i %i Default\n",i+5,i+5,4);
     
     fprintf(fid,".model Default D\n");
     fprintf(fid,".op\n");
     fprintf(fid,".end\n");
     fprintf(fid,".control\n");
-    fprintf(fid,"tran 0.0002 2 1.8\n");
+    fprintf(fid,"tran 0.0002 1 0.8\n");
     fprintf(fid,'echo "info_TAB"\n');
     fprintf(fid,"print mean(v(5)-v(4))\n");
     fprintf(fid,"print maximum(v(5)-v(4))-minimum(v(5)-v(4))\n");
@@ -121,7 +114,7 @@ while iteration <10000
     iteration = iteration + 1;
     [cost(iteration), mean, M(iteration)] = evaluate(ndiodes, N, resistors, capacitors);
 
-    [best, ibest] = max (M);
+    [best, ibest] = max(M);
 
     disp(["Cost: ", num2str(cost(iteration))]);
     disp(["M value: ", num2str(M(iteration))]);
