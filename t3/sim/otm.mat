@@ -41,28 +41,44 @@ end
 function [ndiodes, N, resistors, capacitors] = randomdata(best)
     if sum(best)<0.1
 	%starting values
-        ndiodes = 17;
-	N = 20;
-        resistors = 0.1;
-        capacitors = 0.5;
+        ndiodes = 19;
+	N = 6;
+        resistors = 45;
+        capacitors = 18.5;
     else
     n = rand();
+    if n< 0
+	%changing the number of diodes
+        ndiodes = abs(best(1) + discrete_rnd([-1 1],[0.5 0.5])(1));
+	N = best(2);
+        resistors = best(3);
+        capacitors = best(4);
 
-    ndiodes = best(1);
-    %ndiodes = abs(best(1) + discrete_rnd([-1 1],[0.5 0.5])(1));
+    elseif n< 0.5
+	%changing the N value
+        ndiodes = best(1);
+	N = abs(best(2) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+	%N = abs(best(2) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+        resistors = best(3);
+        capacitors = best(4);
 
-    N = abs(best(2) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
-    %N = abs(best(2) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+    elseif n< 0.5
+	%changing the resistor value
+        ndiodes = best(1);
+	N = best(2);
+        %resistors = abs(best(3) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+	resistors = abs(best(3) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+        capacitors = best(4);
 
-    resistors = best(3);
-    %resistors = abs(best(3) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
-    %resistors = abs(best(3) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
-        
-    capacitors = best(4);
-    %capacitors = abs(best(4) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
-    %capacitors = abs(best(4) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+    else
+	%changing the capacitor value
+        ndiodes = best(1);
+	N = best(2);
+        resistors = best(3);
+        capacitors = abs(best(4) + 0.1*randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
+	%capacitors = abs(best(4) + randn()*discrete_rnd([-1 1],[0.5 0.5])(1));
 
-    
+    end
     end
 end
 
