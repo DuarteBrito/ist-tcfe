@@ -27,11 +27,11 @@ fclose(fido);
 M = 1/(cost*(abs(mean-12)+ripple+0.000001));
 
 fidw = fopen("info.tex","w");
-fprintf(fidw,"Parameter & Value\\ \hline\n");
-fprintf(fidw,"mean & %f\\ \hline\n",mean);
-fprintf(fidw,"Ripple & %f\\ \hline\n",ripple);
-fprintf(fidw,"Cost & %f\\ \hline\n",cost);
-fprintf(fidw,"M & %f\\ \hline\n",M);
+fprintf(fidw,"Parameter & Value\\\\ \n \\hline\n");
+fprintf(fidw,"mean & %f \\\\ \n \\hline\n",mean);
+fprintf(fidw,"Ripple & %f \\\\ \n \\hline\n",ripple);
+fprintf(fidw,"Cost & %f \\\\ \n \\hline\n",cost);
+fprintf(fidw,"M & %f \\\\ \n \\hline\n",M);
 
 fclose(fidw);
 end
