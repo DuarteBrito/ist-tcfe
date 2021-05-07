@@ -1,314 +1,116 @@
-\section{Theoretial Analysis}
+\section{Theoretical Analysis}
 \label{sec:theoretical analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{At t$<$0}
 
+\subsection{Voltage rectifier}
+First the current resulting from the transformer, which is considered ideal is calculated using the formula $V_2/n_2=V_1/n_1 $, thereupon, the circuit is analyzed to understand which diodes from the rectifier are on and off for each signal of current. Next, by using KVL, it is possible to define the tension on the capacitor without addressing its discharge $V_c=A.cos(w.t)-n_d_i_o_d_e_s.V_o_n $, being A the amplitude of the voltage after being transformed in the inductor. 
 
+\subsection{Envelope detector}
 
+\textbf{Capacitor discharge:}
+By using KCL, it is possible to write that $i_d = i_c + i_r$ ($i_r$ being the current if the equivalent resistor of voltage regulator).
+Once the capacitor is charged and because there is fluctuation due to the sinusoidal nature of the voltage coming from the rectifier, there will be a point where $i_r = -i_c$. At this point, the diodo will turn off and the capacitor will begin to discharge. This point is called $t_off$ and it can be calculated like $$ t_o_f_f=(1/w).atan(1/w/(C.R_v_._r_e_g)) .$$ The function that defines the discharging is calculated using a formula obtained in the lectures: $$V_e_x_p=(A-2.V_o_n).cos(w.t_o_f_f).exp(-(t-t_o_f_f)/(C.R_v_._r_e_g)$$
 
-% matrix for t<0           1)
-% explicar condensador = circuito aberto
 
-For t $<$ 0, we can assume that the capacitor has achieved equilibrium and because of that we can say that the voltage drop in the capacitor is now constant, that is, $dv/dt = 0$.
-In a capacitor $dv/dt = i/C$, so $0 = i/C \iff i = 0$, which is equivalent to an open circuit.
-With that being said, we can redesign the circuit like so:
-
-\begin{figure}[h!]
-   \includegraphics[width=.5\columnwidth]{circ_inf_0.pdf}
-    \centering
-    \caption{Circuit at t$<$0} 
-    \label{t<0}
-\end{figure}
-
-By using node analysis, one can get the following matrix:
-
-\[
-\begin{bmatrix}
-1 & 0 & 0 & 0 & 0 & 0 & 0\\
-G_1 & -G_1-G_2-G_3 & G_2 & G_3 &  0 & 0 & 0\\
-0 & G_2+K_b & -G_2 & -K_b & 0 & 0 & 0\\
-0 & 0 & 0 & 1 & 0 & K_d*G_6 & -1\\
-0 & -K_b & 0 & G_5+K_b & -G_5 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & -G_6 - G_7 & G_7\\
-%G_1 & -G_1 & 0 & -G_4 & 0 & -G_6 & 0\\
-0 & G3 & 0 & -G4-G5-G3 & G5 & G7 & -G7\\
-\end{bmatrix}
-\cdot
-\begin{bmatrix}
-V_1\\
-V_2\\
-V_3\\
-V_5\\
-V_6\\
-V_7\\
-V_8\\
-\end{bmatrix}
-=
-\begin{bmatrix}
-V_s\\
-0\\
-0\\
-0\\
-0\\
-0\\
-0\\
-\end{bmatrix}
-\]
-
-Using octave to resolve it, one gets the following results:
-
-\vspace{0.5cm}
-
-\csvautotabular{../mat/resultados1.txt}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% matrix for t = 0    2)
-% explicar continuidade 
-
-%Because there is a dependent voltage and a current sources, one can not remove them nor use voltage and current division, %therefore we use Thevenin’s Theorem: we substitute the capacitor with an independent voltage source and, since there is no %resistance $R_th = 0$. 
-
-\subsection{Equivalent Resistance}
-
-To get the equilibrium resistor, we take $V_s$ from the circuit and replace the capacitor with a voltage source, while maintaining the voltage drop at its nodes.
-
-The voltage drop at the end of the capacitor can be considered constant because there is continuity in those nodes.
-
-Thus, the circuit that will be analysed will be the following:
-
-
-\begin{figure}[h!]
-   \includegraphics[width=.5\columnwidth]{circ_eq_0.pdf}
-    \centering
-    \caption{Circuit to calculate $R_{eq}$} 
-    \label{Req}
-\end{figure}
-
-
-To calculate the value of $V_x$, it is needed Ohm's Law $$ V_x = R_{eq}*I_x$$:
-
-To get Ix, it is used KCL in the node 6:
-
-$$I_x = G_5(V_6-V_5) + K_b*(V_2-V_5)$$
-
-Using Ohm's Law ($ V_x = R_eq*I_x$):
-
-$$R = (V_6 - V_5)/I_x$$
-
-
-
-By using node analysis, one can get the following matrix:
-
-\[
-\begin{bmatrix}
--G_1-G_2-G_3 & G_2 & G_3 &  0 & 0 & 0\\
-0 & G_2 + K_b & -G_2 & -K_b & 0 & 0 & 0\\
-0 & 0 & 0 & 1 & 0 & K_d*G_6 & -1\\
-0 & 0 & 0 & 1 & 0 & -1\\
-0 & 0 & 0 & 0 & -G_6-G_7 & G_7\\
-G_3-K_b & 0 & -G_4 - G_3+K_b & 0 & G_7 & -G_7\\
-
-\end{bmatrix}
-\cdot
-\begin{bmatrix}
-V_2\\
-V_3\\
-V_5\\
-V_6\\
-V_7\\
-V_8\\
-\end{bmatrix}
-=
-\begin{bmatrix}
-0\\
-0\\
-0\\
-Vx\\
-0\\
-0\\
-\end{bmatrix}
-\]
-
-\vspace{1cm}
-
-Using octave to resolve it, one gets the following results:
-
-\vspace{0.5cm}
-
-\csvautotabular{../mat/resultados2.txt}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{t $>$ 0}
-
-
-\textbf{Natural Solution:}
-
-The natural solution is given by:
-
-$$V_x = Ae^{(\frac{-1}{R_{eq}C}t)}$$
-
-Where $A = V_6(t = 0) - V_8(t=0)$ due to continuity at t=0
-
-This function can be plotted resulting, resulting in:
-
-\begin{figure}[h!]
-   \includegraphics[width=.5\columnwidth]{../mat/circ2.png}
-    \centering
-    \caption{Natural Solution}  %
-    \label{nat}
-\end{figure}
-
-
-
-\vspace{1cm}
-
-\textbf{Forced Solution:}
-
-\begin{figure}[h!]
-   \includegraphics[width=.5\columnwidth]{circ_big_0.pdf}
-    \centering
-    \caption{Natural Solution}  %
-    \label{forced}
-\end{figure}
-
-\vspace{1cm}
-To get the forced solution it is used complex numbers, impedance and node analysis, and by applying it to the circuit above, one can get the following matrix:
-
-
-
-\[
-\begin{bmatrix}
-1 & 0 & 0 & 0 & 0 & 0 & 0\\
-G_1 & -G_1-G_2-G_3 & G_2 & G_3 & 0 & 0 & 0\\
-0 & G_2+K_b & -G_2 & -K_b & 0 & 0 & 0\\
-0 & 0 & 0 & 1 & 0 & K_d*G_6 & -1\\
-0 & -K_b & 0 & G_5+K_b & -G_5-j*w*C & 0 & j*w*C\\
-0 & 0 & 0 & 0 & 0 & -G_6-G_7 & G_7\\
-%G_1 & -G_1 & 0 & -G_4 & 0 & -G_6 & 0\\
-0 & G3 & 0 & -G4-G5-G3 & G5+j*w*C & G7 & -G7-j*w*C \\
-\end{bmatrix}
-\]
-\[
-\cdot
-\begin{bmatrix}
-\tilde{V}_1\\
-\tilde{V}_2\\
-\tilde{V}_3\\
-\tilde{V}_5\\
-\tilde{V}_6\\
-\tilde{V}_7\\
-\tilde{V}_8\\
-\end{bmatrix}
-=
-\begin{bmatrix}
-\tilde{V}_s\\
-0\\
-0\\
-0\\
-0\\
-0\\
-0\\
-\end{bmatrix}
-\]
-
-%Using octave to resolve it, one gets the following results:
-
-%\vspace{1cm}
-
-%\csvautotabular{resultados4.txt}
-
-After solving it, to get the forced solution, it is needed to multiply $\tilde{V}_6$  with $e^{i*w*C}$. The result of that is displayed in the plot bellow:
-\vspace{1cm}
-\begin{figure}[h!]
-   \includegraphics[width=.5\columnwidth]{../mat/circ3.png}
-    \centering
-    \caption{Forced Solution}  %
-    \label{nat}
-\end{figure}
-
-\vspace{2cm}
-
-\textbf{Final Total Solution:}
-
-Since $$ V_6 = V_{6n}(t) + V_{6f}(t) $$
-the total forced solution is (note that in the plot it is also displayed the voltage for t$<$0): 
-
-
-
-\begin{figure}[h!]
-   \includegraphics[width=.5\columnwidth]{../mat/tot_ponto5.png}
-    \centering
-    \caption{V$_6$} 
-    \label{v6}
-\end{figure}
-
-
-\vspace{1cm}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\vspace{3cm}
-\subsection{Frequency Response}
-\label{sec:2.4}
-In this part, the frequency was altered from 0.1 Hz to 1 MHz and the frequency response of $V_6$, $V_s$, $V_c = V_6 - V_8$ were plotted.
-
-The transfer functions calculated for the frequency response are:
-
-\vspace{1cm}
-
-$$ T_{V_6} = \frac{e^{-i\phi_6}}{e^{-i\frac{\pi}{2}}}$$
-
-$$ T_{V_c} = \frac{e^{-i\phi_6} -e^{-i\phi_6}}{e^{-i\frac{\pi}{2}}}$$
-
-$$ T_{V_s} = \frac{e^{-i\frac{\pi}{2}}}{e^{-i\frac{\pi}{2}}}$$
-
-\vspace{1cm}
-
-The absolute values are plotted here:
-
-\vspace{1cm}
 
 %\begin{figure}[h!]
-%   \includegraphics[width=.5\columnwidth]{T_abs.png}
-%    \centering
-%    \caption{Absolute Value}  %
-%    \label{abs}
-%\end{figure}
-%
-%\begin{figure}[h]
-%   \includegraphics[width=.5\columnwidth]{T_abs_zoom.png}
-%    \centering
-%    \caption{Zoom of Absolute Value}  %-----
-%    \label{zoom}
+ %  \includegraphics[width=.5\columnwidth]{circ_inf_0.pdf}
+  %  \centering
+   % \caption{Circuit at t$<$0} 
+    %\label{t<0}
 %\end{figure}
 
+\subsection{Voltage at the Capacitor}
 
-\begin{figure}[h]
-    \minipage{0.45\textwidth}
-      \includegraphics[width=\linewidth]{../mat/T_abs.png}
-      \caption{Absolute Value}
-    \endminipage\hfill
-    \minipage{0.45\textwidth}
-      \includegraphics[width=\linewidth]{../mat/T_abs_zoom.png} %../sim/
-      \caption{Zoom of Absolute Value}
-    \endminipage\hfill
-\end{figure}
+The voltage at the capacitor will be the maximum between the sinusoidal function coming from the voltage rectifier and the function of the discharge.
 
-\vspace{1cm}
+We can decompose this voltage, $v_C$, in its DC component, $V_c$, and its AC component, $v_c$ ($V_c$ is the mean of the function and $v_c$ is the function minus $V_c$).
 
-The phases are plotted here:
 
-\begin{figure}[h]
-   \includegraphics[width=.6\columnwidth]{../mat/T_angle.png}
+\subsection{Voltage Regulator}
+
+\textbf{Output Voltage:}
+The output voltage, $v_O$, will be the voltage measured in the nodes of the first and last nodes.
+This voltage can be decomposed in two components: $$v_O = V_o + v_o$$
+
+$V_o $ will be equal to number of diodos, $n_d$ times $V_o_n$.
+
+To get $v_o$, it is used the incremental model of the diodo, where it can be replaced by a resistor $r_d$.
+After using voltage dividir, one can get the following:
+$$ v_o = \frac{n_d \cdot r_d}{n_d \cdot r_d + R} \cdot v_s$$
+
+After doing this, the output voltage, $v_O$, has been calculated.
+
+
+
+
+
+\subsection{Results and Comparisons}
+
+
+
+The results obtained in the simulation and theoretical analysis were similar (as it can be seen in the graphics bellow):
+
+\begin{itemize}
+  \item The value of the voltage drop of the envelope detector is close
+  \item The ripple's order of magnitude is the same
+  \item The value of M is similar
+\end{itemize}
+
+Note that the DC component of the voltage regulator in the theoretical analysis is equal to the one obtained in the simulation because the value of $V_o_n$ used in the theoretical analysis was taken from NGSpice. 
+
+\begin{figure}[H]
     \centering
-    \caption{Phase}
-    \label{phase}
+\subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/outputvoltage.pdf}
+\label{Fig_2_estatica}}
+  \hfill
+\subfloat[Theoretical Results]{\includegraphics[width=0.55\textwidth]{../mat/results_2.png}
+\label{Fig_2_dinamica}}
 \end{figure}
 
+  \begin{figure}[H]
+     \centering
+     \caption{Envelope Detector and Voltage Regulator}
+     \label{fig_2_reação_normal}
+ \end{figure}
 
 
-As you can see from the previous figures, it is possible to conclude that the circuit is analysis is a low pass filter, since for frequencies in the range of 0.1 to 10 Hz the absolute value of the transfer function is approximately 1 and the phase angle is approximately 0, which means that their value are basically the same. On the other hand, for larger frequencies, larger than 1000 Hz, the absolute value of the transfer function is much lower because the nominator is almost 0, while the phase angle is -180º.
-%This can be explained by the fact that the voltage drop can be calculated by $ \tilde{V} = Z * \tilde{I}$, and since the phase of Z is -90º due to the i in the denominator, there will be this phase angle. 
-%Moreover, this can also be understood by the fact that while the voltage source is positive, the capacitor is charging, and when the voltage source is negative, the capacitor is releasing what had previously charged, in other words, the capacitor and the voltage are in oppositive phase, which in sinusoidal functions, is represented by a phase angle of -180º.
+\begin{figure}[H]
+    \centering
+\subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/zoom2.pdf}
+\label{Fig_2_estatica}}
+  \hfill
+\subfloat[Theoretical Results]{\includegraphics[width=0.55\textwidth]{../mat/results.png}
+\label{Fig_2_dinamica}}
+\end{figure}
+
+  \begin{figure}[H]
+     \centering
+     \caption{Deviation from the objective of 12 V}
+     \label{fig_2_reação_normal}
+ \end{figure}
+
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    %{\bf Name} & {\bf Value [A or V]} \\ \hline
+    \input{../sim/info}
+  \end{tabular}
+  \caption{Spice results. The M value and the cost were calculated by an additional octave script included in the git.}
+  \label{tab:info}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    %{\bf Name} & {\bf Value [A or V]} \\ \hline
+    \input{../mat/resultados_tabela.tex}
+  \end{tabular}
+  \caption{Spice results. The M value and the cost were calculated by an additional octave script included in the git.}
+  \label{tab:info}
+\end{table}
+
+
