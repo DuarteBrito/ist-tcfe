@@ -3,13 +3,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Voltage rectifier}
-First the current resulting from the transformer, which is considered ideal is calculated using the formula $V_2/n_2=V_1/n_1 $, thereupon, the circuit is analyzed to understand which diodes from the rectifier are on and off for each signal of current. Next, by using KVL, it is possible to define the tension on the capacitor without addressing its discharge $V_c=A.cos(w.t)-n_d_i_o_d_e_s.V_o_n $, being A the amplitude of the voltage after being transformed in the inductor. 
+First the current resulting from the transformer, which is considered ideal is calculated using the formula $V_2/n_2=V_1/n_1 $, thereupon, the circuit is analyzed to understand which diodes from the rectifier are on and off for each signal of current. Next, by using KVL, it is possible to define the tension on the capacitor without addressing its discharge $V_c=A cos(w.t)-(n_{diodes} \cdot V_{on}) $, being A the amplitude of the voltage after being transformed in the inductor. 
 
 \subsection{Envelope detector}
 
 \textbf{Capacitor discharge:}
 By using KCL, it is possible to write that $i_d = i_c + i_r$ ($i_r$ being the current if the equivalent resistor of voltage regulator).
-Once the capacitor is charged and because there is fluctuation due to the sinusoidal nature of the voltage coming from the rectifier, there will be a point where $i_r = -i_c$. At this point, the diodo will turn off and the capacitor will begin to discharge. This point is called $t_off$ and it can be calculated like $$ t_o_f_f=(1/w).atan(1/w/(C.R_v_._r_e_g)) .$$ The function that defines the discharging is calculated using a formula obtained in the lectures: $$V_e_x_p=(A-2.V_o_n).cos(w.t_o_f_f).exp(-(t-t_o_f_f)/(C.R_v_._r_e_g)$$
+Once the capacitor is charged and because there is fluctuation due to the sinusoidal nature of the voltage coming from the rectifier, there will be a point where $i_r = -i_c$. At this point, the diodo will turn off and the capacitor will begin to discharge. This point is called $t_{off}$ and it can be calculated like $$ t_{off}=(1/w)\cdot atan(1/w/(C  \cdot  R_{v_{reg}})).$$The function that defines the discharging is calculated using a formula obtained in the lectures: $$ V_{exp}=(A-2.V_{on}).cos(w \cdot t_{off})exp(-(t-t_{off})/(CR_{v_{reg}})$$
 
 
 
@@ -33,7 +33,7 @@ We can decompose this voltage, $v_C$, in its DC component, $V_c$, and its AC com
 The output voltage, $v_O$, will be the voltage measured in the nodes of the first and last nodes.
 This voltage can be decomposed in two components: $$v_O = V_o + v_o$$
 
-$V_o $ will be equal to number of diodos, $n_d$ times $V_o_n$.
+$V_o $ will be equal to number of diodos, $n_d$ times $V_{on}$.
 
 To get $v_o$, it is used the incremental model of the diodo, where it can be replaced by a resistor $r_d$.
 After using voltage dividir, one can get the following:
@@ -57,9 +57,9 @@ The results obtained in the simulation and theoretical analysis were similar (as
   \item The value of M is similar
 \end{itemize}
 
-Note that the DC component of the voltage regulator in the theoretical analysis is equal to the one obtained in the simulation because the value of $V_o_n$ used in the theoretical analysis was taken from NGSpice. 
+Note that the DC component of the voltage regulator in the theoretical analysis is equal to the one obtained in the simulation because the value of $V_{on}$ used in the theoretical analysis was taken from NGSpice. 
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
 \subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/outputvoltage.pdf}
 \label{Fig_2_estatica}}
@@ -68,14 +68,14 @@ Note that the DC component of the voltage regulator in the theoretical analysis 
 \label{Fig_2_dinamica}}
 \end{figure}
 
-  \begin{figure}[H]
+  \begin{figure}[h]
      \centering
      \caption{Envelope Detector and Voltage Regulator}
      \label{fig_2_reação_normal}
  \end{figure}
 
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
 \subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/zoom2.pdf}
 \label{Fig_2_estatica}}
@@ -84,7 +84,7 @@ Note that the DC component of the voltage regulator in the theoretical analysis 
 \label{Fig_2_dinamica}}
 \end{figure}
 
-  \begin{figure}[H]
+  \begin{figure}[h]
      \centering
      \caption{Deviation from the objective of 12 V}
      \label{fig_2_reação_normal}
