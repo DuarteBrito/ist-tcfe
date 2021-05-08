@@ -3,13 +3,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Voltage rectifier}
-First the current resulting from the transformer, which is considered ideal is calculated using the formula $V_2/n_2=V_1/n_1 $, thereupon, the circuit is analyzed to understand which diodes from the rectifier are on and off for each signal of current. Next, by using KVL, it is possible to define the tension on the capacitor without addressing its discharge $V_c=A cos(w.t)-(n_{diodes} \cdot V_{on}) $, being A the amplitude of the voltage after being transformed in the inductor. 
+First the current resulting from the transformer, which is considered ideal is calculated using the formula $V_2/n_2=V_1/n_1 $, thereupon, the circuit is analyzed to understand which diodes from the rectifier are on and off for each signal of current. Next, by using KVL, it is possible to define the tension on the capacitor without addressing its discharge $V_c=A cos(w.t)-(n_{diodes} \cdot V_{on}) $, being $A$ the amplitude of the voltage after being transformed in the inductor. 
 
 \subsection{Envelope detector}
 
 \textbf{Capacitor discharge:}
 By using KCL, it is possible to write that $i_d = i_c + i_r$ ($i_r$ being the current if the equivalent resistor of voltage regulator).
-Once the capacitor is charged and because there is fluctuation due to the sinusoidal nature of the voltage coming from the rectifier, there will be a point where $i_r = -i_c$. At this point, the diodo will turn off and the capacitor will begin to discharge. This point is called $t_{off}$ and it can be calculated like $$ t_{off}=(1/w)\cdot atan(1/w/(C  \cdot  R_{v_{reg}})).$$The function that defines the discharging is calculated using a formula obtained in the lectures: $$ V_{exp}=(A-2.V_{on}).cos(w \cdot t_{off})exp(-(t-t_{off})/(CR_{v_{reg}})$$
+Once the capacitor is charged and because there is fluctuation due to the sinusoidal nature of the voltage coming from the rectifier, there will be a point where $i_r = -i_c$. At this point, the diodo will turn off and the capacitor will begin to discharge. This point is called $t_{off}$ and it can be calculated like $$ t_{off}=(1/w)\cdot atan(1/w/(C R_{v_{reg}})).$$The function that defines the discharging is calculated using the formula obtained in the lectures: $$ V_{exp}=(A-2.V_{on}).cos(w \cdot t_{off})exp(-(t-t_{off})/(CR_{v_{reg}}))$$
 
 
 
@@ -30,16 +30,16 @@ We can decompose this voltage, $v_C$, in its DC component, $V_c$, and its AC com
 \subsection{Voltage Regulator}
 
 \textbf{Output Voltage:}
-The output voltage, $v_O$, will be the voltage measured in the nodes of the first and last nodes.
+The output voltage, $v_O$, will be the voltage measured in the nodes of the first and last diodes.
 This voltage can be decomposed in two components: $$v_O = V_o + v_o$$
 
-$V_o $ will be equal to number of diodos, $n_d$ times $V_{on}$.
+$V_o $ will be equal to number of diodes, $n_d$ times $V_{on}$.
 
-To get $v_o$, it is used the incremental model of the diodo, where it can be replaced by a resistor $r_d$.
+To get $v_o$, it is used the incremental model of the diode, where it can be replaced by a resistor $r_d$.
 After using voltage dividir, one can get the following:
 $$ v_o = \frac{n_d \cdot r_d}{n_d \cdot r_d + R} \cdot v_s$$
 
-After doing this, the output voltage, $v_O$, has been calculated.
+After doing the sum of $V_o$ and $v_o$, the output voltage, $v_O$, has been calculated.
 
 
 
@@ -52,9 +52,9 @@ After doing this, the output voltage, $v_O$, has been calculated.
 The results obtained in the simulation and theoretical analysis were similar (as it can be seen in the graphics bellow):
 
 \begin{itemize}
-  \item The value of the voltage drop of the envelope detector is close
+  \item The values of the voltage drop of the envelope detector are close
   \item The ripple's order of magnitude is the same
-  \item The value of M is similar
+  \item Thes values of M are similar
 \end{itemize}
 
 Note that the DC component of the voltage regulator in the theoretical analysis is equal to the one obtained in the simulation because the value of $V_{on}$ used in the theoretical analysis was taken from NGSpice. 
