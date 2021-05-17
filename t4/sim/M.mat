@@ -1,45 +1,119 @@
 %File made to calculate the M value of the sistem
 %28/4/2021
 
-function [cost, M] = evaluate(ndiodes, resistors, capacitors)
-%ndiodes is the number of diodes (ex: 7)
-%resistors in a kohm vector (ex:[0.5 1.2])
-%capacitors in a uF vector (ex:[1.2 0.5])
+function [cost, M] = evaluate()
+%check file for the component usage values
+fidr = fopen("t4.net","r");
+ntrans = 0;
+resistors = 0;
+capacitors = 0;
+l = fgets(fidr);
+while not(l == -1) & not(strcmp(l,""))
 
-cost = sum(resistors)+ndiodes*0.1+sum(capacitors);
+if strcmp(l(1),"C")
+l = strsplit(l," ");
+l = l{4};
+l = strsplit(l,"u");
+l = l{1};
+capacitors = capacitors + str2double(l);
+end
+
+if strcmp(l(1),"R")
+l = strsplit(l," ");
+l = l{4};
+l = strsplit(l,"k");
+l = l{1};
+capacitors = capacitors + str2double(l);
+end
+
+if strcmp(l(1),"Q")
+ntrans = ntrans +1;
+end
+
+l = fgets (fidr);
+
+end
+
+fclose(fidr);
+
+cost = resistors+ntrans*0.1+capacitors-0.108;
 
 fido = fopen("info_tab.tex","r");
+%voltage gain
 line1 = fgetl(fido);
-%line1 = erase(str,"");
 line1 = strsplit(line1,"\\");
-mean = strsplit(line1{1},"&");
-mean = mean{2};
-%mean(mean == ' ') = '';
-mean = str2double(mean);
+voltageGain = strsplit(line1{1},"&");
+voltageGain = voltageGain{2};
+voltageGain = str2double(voltageGain);
 
+%lowerCutoffFreq
 line2 = fgetl(fido);
 line2 = strsplit(line2,"\\");
-ripple = strsplit(line2{1},"&");
-ripple = str2double(ripple{2});
+lowerCutoffFreq = strsplit(line2{1},"&");
+lowerCutoffFreq = str2double(lowerCutoffFreq{2});
+
+%higherCutoffFreq
+line3 = fgetl(fido);
+line3 = strsplit(line3,"\\");
+higherCutoffFreq = strsplit(line3{1},"&");
+higherCutoffFreq = str2double(higherCutoffFreq{2});
+
+%input impedence
+line4 = fgetl(fido);
+line4 = strsplit(line4,"\\");
+line4 = strsplit(line4{1},"&");
+line4 = strsplit(line4{2},",");
+ii1 = str2double(line4{1});
+ii2 = str2double(line4{2});
+
+%output impedence
+line5 = fgetl(fido);
+line5 = strsplit(line5,"\\");
+line5 = strsplit(line5{1},"&");
+line5 = strsplit(line5{2},",");
+oi1 = str2double(line5{1});
+oi2 = str2double(line5{2});
 
 fclose(fido);
 
-M = 1/(cost*(abs(mean-12)+ripple+0.000001));
+bandwidth= higherCutoffFreq-lowerCutoffFreq;
+
+M = (voltageGain*bandwidth)/(cost*lowerCutoffFreq);
 
 fidw = fopen("info.tex","w");
 fprintf(fidw,"Parameter & Value\\\\ \n \\hline\n");
-fprintf(fidw,"mean & %f \\\\ \n \\hline\n",mean);
-fprintf(fidw,"Ripple & %f \\\\ \n \\hline\n",ripple);
+fprintf(fidw,"Voltage Gain & %f \\\\ \n \\hline\n",voltageGain);
+disp("Voltage Gain:");
+disp(voltageGain);
+
+fprintf(fidw,"lowerCutoffFreq & %f \\\\ \n \\hline\n",lowerCutoffFreq);
+disp("lowerCutoffFreq:");
+disp(lowerCutoffFreq);
+
+fprintf(fidw,"higherCutoffFreq & %f \\\\ \n \\hline\n",higherCutoffFreq);
+disp("higherCutoffFreq:");
+disp(higherCutoffFreq);
+
+fprintf(fidw,"bandwith & %f \\\\ \n \\hline\n",bandwidth);
+disp("bandwidth:");
+disp(bandwidth);
+
+fprintf(fidw,"input impedence & %f + i%f kohm\\\\ \n \\hline\n",ii1, ii2);
+fprintf(fidw,"output impedence & %f + i%f kohm\\\\ \n \\hline\n",oi1, oi2);
+
 fprintf(fidw,"Cost & %f \\\\ \n \\hline\n",cost);
+disp("cost:");
+disp(cost);
+
 fprintf(fidw,"M & %f \\\\ \n \\hline\n",M);
+disp("M:");
+disp(M);
 
 fclose(fidw);
 end
-%ndiodes resistors capacitors
-[cost, M] = evaluate(23, [45], [17.5150173805745]);
 
-disp(cost);
-disp(M);
+%run
+[cost, M] = evaluate();
 
 
 

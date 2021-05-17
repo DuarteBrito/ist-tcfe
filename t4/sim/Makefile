@@ -6,7 +6,7 @@ all: ngspice.log
 	$(foreach i, $(NGSFIGPS), ps2pdf $i;)
 	octave M.mat
 
-ngspice.log: ../sim/lab4.net
+ngspice.log: ../sim/t4.net
 	ngspice $< -o $@
 
 clean:

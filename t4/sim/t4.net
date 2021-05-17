@@ -6,10 +6,10 @@
 
 Vcc vcc 0 12.0
 Vin in 0 0 ac 1.0 sin(0 10m 1k)
-Rin in in2 100
+Rin in in2 0.100k
 
 * input coupling capacitor
-Ci in2 base 1m
+Ci in2 base 1u
 
 * bias circuit
 R1 vcc base 80k
@@ -18,21 +18,21 @@ R2 base 0 20k
 * gain stage
 Q1 coll base emit BC547A
 Rc vcc coll 1k
-Re emit 0 100
+Re emit 0 0.100k
 
 * bypass capacitor
-Cb emit 0 1m
+Cb emit 0 80u
 
 
 * output stage
 Q2 0 coll emit2 BC557A
-Rout emit2 vcc 100
+Rout emit2 vcc 0.300k
 
 * output coupling capacitor
-Co emit2 out 1u
+Co emit2 out 35u
 
 * load
-RL out 0 8
+RL out 0 0.008k
 
 .op
 .end
@@ -45,24 +45,44 @@ print all
 tran 1e-5 1e-2
 plot v(coll)
 hardcopy vo1.ps vdb(coll)
+echo vo1_FIG
 
 
 * frequency analysis
 ac dec 10 10 100MEG
-plot vdb(coll)
-plot vp(coll)
+*plot vdb(coll)
+*plot vp(coll)
 hardcopy vo1f.ps vdb(coll)
+echo vo1f_FIG
 
 
+*plot vdb(out)
+*plot vp(out)
+hardcopy vo2f.ps vdb(out)
+echo vo2f_FIG
 
-plot vdb(out)
-plot vp(out)
-hardcopy vo2f.ps vdb(coll)
+let mxoutlvl = maximum(vdb(out))-3
+
+echo "info_TAB"
+
+*gain
+print maximum(vdb(out)-vdb(in))
+
+*cutoff frequencies
+meas ac f1 WHEN vdb(out)=mxoutlvl CROSS=1
+meas ac f2 WHEN vdb(out)=mxoutlvl CROSS=LAST
 
 *input impedance in kohm
 print v(in2)[40]/(v(in)[40]-v(in2)[40])/100*1000
 
+*output impedance in kohm
+print v(in2)[40]/(v(in)[40]-v(in2)[40])/100*1000
+
+echo "info_END"
+
 *need a different setup to measure output impedance
+
+quit
 
 .endc 
 
