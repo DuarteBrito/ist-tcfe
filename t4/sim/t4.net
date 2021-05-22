@@ -39,7 +39,6 @@ RL out 0 0.008k
 
 .control
 
-print all
 
 * time analysis
 tran 1e-5 1e-2
@@ -73,7 +72,10 @@ meas ac f1 WHEN vdb(out)=mxoutlvl CROSS=1
 meas ac f2 WHEN vdb(out)=mxoutlvl CROSS=LAST
 
 *input impedance in kohm
-print v(in2)[40]/(v(in)[40]-v(in2)[40])/100*1000
+*print all
+
+plot abs(v(in2)[40]/vin#branch[40]/(-1000))
+print v(in2)[40]/vin#branch[40]/(-1000)
 
 *output impedance in kohm
 print v(in2)[40]/(v(in)[40]-v(in2)[40])/100*1000
