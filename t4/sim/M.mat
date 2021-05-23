@@ -122,7 +122,10 @@ disp(M);
 fclose(fidw);
 
 fidlog = fopen("ngspice.log","r");
-nlines = fskipl (fidlog, 32);
+line= fgetl(fidlog);
+while not(strcmp(line,"V transistor 1"))
+	line = fgetl(fidlog);
+end
 VCE1 = fgetl(fidlog);
 VCE1 = strsplit(VCE1,"=");
 VCE1 = VCE1{2};
