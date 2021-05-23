@@ -1,0 +1,78 @@
+\section{Simulation Analysis}
+\label{sec:simulation analysis}
+\subsection{Incremental Modifications}
+
+\indent
+
+In order to maximize the M value, we used the provided circuit, and tried to make small changes and evaluate their results. The main changes were to the value of the parameters of the bypass and input capacitors.
+
+Keeping in mind the effects of this changes, which was talked about in previous lectures, it was quick to obtain a set of values that are taken to be optimal.
+\subsubsection{Coupling capacitor}
+Since the source has 0V DC value which we do not want, there is a need to add a coupling capacitor, which blocks the 0V DC component of $V_s$, which will that act as an open circuit at low frequencies. This will lower the lower cut-off frequency, which will increase the bandwidth.
+
+\subsubsection{Bypass capacitor}
+The bypass capacitor, is a much needed component of the circuit, since it will function as an open circuit for low frequencies (DC) and a short circuit for higher frequencies(AC), this will solve the problem of using the resistor $R_E$, while keeping the benefits of stabilizing the gain in case of temperature variation in DC without the disadvantage of the decrease in the gain in higher frequencies. In medium to high frequencies most of the current will go through the capacitor, since it gets closer to an open circuit, increasing the gain.
+
+\subsubsection{Effect of Rc on the gain}
+Increasing Rc increases the gain of the circuit. This makes it similar gain controls in common analog appliances, where a knob potentiometer can be easily user controlled. Just as in common appliances, if we increase the gain too much the output starts to get "muddy" or distorted, a sound that many enthusiasts enjoy. Increasing the Rc value increases the output impedance, which widens the gap between input and output impedences.
+
+\subsubsection{Cost}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    %{\bf Name} & {\bf Value [A or V]} \\ \hline
+    Component & Parameter Value \\
+    \hline
+    $C_{in}$ & 1 $\mu$F \\
+    \hline
+    $R_{1}$ & 80 k$\Omega$ \\
+    \hline
+    $R_{2}$ & 20 k$\Omega$ \\
+    \hline
+    $R_{C}$ & 1 k$\Omega$ \\
+    \hline
+    $R_{e}$ & 0.1 k$\Omega$ \\
+    \hline
+    $C_{b}$ & 80 $\mu$F \\
+    \hline
+    $R_{out}$ & 0.3 k$\Omega$ \\
+    \hline
+    $C_{o}$ & 35 $\mu$F \\
+    \hline
+    Transistors & 0.1 MU (x2) \\
+    \hline
+    Total cost & 217.6 MU \\
+    \hline
+  \end{tabular}
+  \caption{Table of costs. Note that the total cost is sum of the the other values (in this units, with the number of diodes multiplied by 0.1).}
+  \label{tab:components}
+\end{table}
+
+\subsection{Spice Results}
+ Using the values stated above and using them in a simulated circuit in ngspice as shown in the circuit shown in Figure \ref{fig:circuit} we obtain the following results.
+ 
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    %{\bf Name} & {\bf Value [A or V]} \\ \hline
+    \input{../sim/info}
+  \end{tabular}
+  \caption{Spice results. The M value and the cost were calculated by an additional octave script included in the git.}
+  \label{tab:ngspice results}
+\end{table}
+
+Note that the transistors are working in the F.A.R.. The operating point below shows that $V_{CE} > V_{BE}$ and $V_{EC} > V_{EB}$.
+
+\vspace{1cm}
+\indent
+\csvautotabular{../sim/V1.txt}
+\label{tab:V1}
+\vspace{1cm}
+\csvautotabular{../sim/V2.txt}
+\label{tab:V2}
+
+\vspace{1cm} 
+

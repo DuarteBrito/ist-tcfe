@@ -141,15 +141,15 @@ VEB2 = VEB2{2};
 fclose(fidlog);
 
 fidV1 = fopen("V1.txt","w");
-fprintf(fidV1," & V(v) \n");
-fprintf(fidV1,"VCE & %s \n",VCE1);
-fprintf(fidV1,"VBE & %s \n",VBE1);
+fprintf(fidV1," , V(v) \n");
+fprintf(fidV1,"VCE , %s \n",VCE1);
+fprintf(fidV1,"VBE , %s \n",VBE1);
 fclose(fidV1);
 
 fidV1 = fopen("V2.txt","w");
-fprintf(fidV1," & V(v) \n");
-fprintf(fidV1,"VEC & %s \n",VEC2);
-fprintf(fidV1,"VEB & %s \n",VEB2);
+fprintf(fidV1," , V(v) \n");
+fprintf(fidV1,"VEC , %s \n",VEC2);
+fprintf(fidV1,"VEB , %s \n",VEB2);
 fclose(fidV1);
 
 end

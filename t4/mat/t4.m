@@ -20,6 +20,19 @@ IE1=(1+BFN)*IB1;  % current through the emmitor of the first transistor
 VE1=RE1*IE1;  % voltage drop in the resistence near the emmitor of the first transistor
 VO1=VCC-RC1*IC1;  %output voltage of the gain stage
 VCE=VO1-VE1;  % voltage drop of the transistor
+%VEB = VEQ-VE1;
+VEB = VBEON;
+
+fidCirc1 = fopen("resultados1_v_op.txt","w");
+fprintf(fidCirc1," ,V (V)\n");
+fprintf(fidCirc1,"VBE1,%f\n",VEB);
+fprintf(fidCirc1,"VCE1,%f\n",VCE);
+fidCirc1 = fopen("resultados1_i_op.txt","w");
+fprintf(fidCirc1," ,I (A)\n");
+fprintf(fidCirc1,"IB1,%f\n",IB1);
+fprintf(fidCirc1,"IC1,%f\n",IC1);
+fprintf(fidCirc1,"IE1,%f\n",IE1);
+fclose(fidCirc1);
 
 % incremental analyses
 gm1=IC1/VT;
@@ -70,7 +83,21 @@ VEBON = 0.7;
 VI2 = VO1;
 IE2 = (VCC-VEBON-VI2)/RE2;
 IC2 = BFP/(BFP+1)*IE2;
+IB2 = IE2-IC2;
 VO2 = VCC - RE2*IE2;
+VCE2 = VO2; %RE2*IE2 + 
+VEB2 = -VI2+VO2;
+
+fidCirc2 = fopen("resultados2_v_op.txt","w");
+fprintf(fidCirc2," ,V (V)\n");
+fprintf(fidCirc2,"VEB2,%f\n",VEB2);
+fprintf(fidCirc2,"VEC2,%f\n",VCE2);
+fidCirc2 = fopen("resultados2_i_op.txt","w");
+fprintf(fidCirc2," ,I (A)\n");
+fprintf(fidCirc2,"IB2,%f\n",IB2);
+fprintf(fidCirc2,"IC2,%f\n",IC2);
+fprintf(fidCirc2,"IE2,%f\n",IE2);
+fclose(fidCirc2);
 
 gm2 = IC2/VT;
 go2 = IC2/VAFP;
@@ -95,7 +122,7 @@ title('gain')
 xlabel('log_1_0(f) [Hz]')
 ylabel('gain ')
 legend('gain')
-%print ("circ2.png", "-dpng");
+print ("gain1.png", "-dpng");
 
 %%
 c1 = 1e-6;
@@ -110,14 +137,14 @@ for t=1:0.1:8
     Zc1 = 1 ./(j*w*c1);
     Zc2 = 1 ./(j*w*c2);
     Zc3 = 1 ./(j*w*c3);
-    ZRe_C1 = 1/(1/RE1+1/Zc2);
+    ZRE_Cb = 1/(1/RE1+1/Zc2);
     Zeq = 1/(1/RE2+1/(Load+Zc3));
     Ro2 = 300;
     
     A = [RS+Zc1+RB,-RB,0,0,0,0,0;
-        -RB,RB+rpi1+ZRe_C1, 0 , -ZRe_C1,0,0,0;
+        -RB,RB+rpi1+ZRE_Cb, 0 , -ZRE_Cb,0,0,0;
         0,rpi1*gm1,1,0,0,0,0;
-        0, ZRe_C1, -ro1, ZRe_C1+ro1+RC1,-RC1,0,0;
+        0, ZRE_Cb, -ro1, ZRE_Cb+ro1+RC1,-RC1,0,0;
         0,0,0,-RC1, Rpi2+RC1+Zeq,0,-Zeq;
         0,0,0,0,Rpi2*gm2,1,0;
         0,0,0,0,-Zeq,-Ro2,Zeq+Ro2];
@@ -136,11 +163,27 @@ gain_DB=20*log10(abs(gain));
 cut_off_val = max(gain_DB)-3;
 [~,cut_off] = min(abs(gain_DB-cut_off_val));
 %cut_off_f = [f(cut_off), 1+(cut_off-1)*(0.1)]
-cut_off_f = f(cut_off)
+cut_off_f = f(cut_off);
 figure
-plot(1:0.1:8, gain_DB, 1:10, cut_off_val*ones(1,10))
+plot(1:0.1:8, gain_DB);%, 1:10, cut_off_val*ones(1,10))
 title('gain')
 xlabel('log_1_0(f) [Hz]')
 ylabel('gain ')
 legend('gain')
-%print ("circ2.png", "-dpng");
+print ("gain2.png", "-dpng");
+
+fidImp = fopen("imp.txt","w");
+fprintf(fidImp,",Z (ohm)\n");
+fprintf(fidImp,"Zi1,%f\n",ZI1);
+fprintf(fidImp,"Zi2,%f\n",ZI2);
+fprintf(fidImp,"Zi,%f\n",ZI);
+fprintf(fidImp,"Zo1,%f\n",ZO1);
+fprintf(fidImp,"Zo2,%f\n",ZO2);
+fprintf(fidImp,"Zo,%f\n",ZO);
+fclose(fidImp);
+
+% fidGain = fopen("imp.txt","w");
+% fprintf(fidGain,",Gain\n");
+% fprintf(fidGain,"gain1,%f\n",ZI1);
+% fprintf(fidGain,"gain2,%f\n",ZI2);
+% fclose(fidGain);

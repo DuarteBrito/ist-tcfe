@@ -1,0 +1,179 @@
+\section{Theoretical Analysis}
+\label{sec:theoretical analysis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Operating Point}
+
+\indent
+
+\textbf{First transistor (npn)} 
+
+\indent
+
+The current through the base of the first transistor is given by $$I_{B1}=(V_{eq}-V_{BEon})/(R_B+(1+\beta_{FN})\cdot R_{E1}$$
+
+The current through the collector of the first transistor is given by $$I_{C1}=\beta _{FN}\cdot I_{B1}$$
+
+The current through the emitter of the first transistor is given by $$I_{E1}=(1+\beta _{FN})\cdot I_{B1}$$
+
+The voltage drop from the emitter to the collector of the first transistor is given by $$ V_{EC1}=V_{O1}-R_{E1}\cdot I_{E1} $$
+
+The voltage drop from the emitter to the base of the first transistor is given by $$ V_{EB1} = V_{EBon} $$
+
+By applying the previous formulas, one can obtain
+
+\csvautotabular{../mat/resultados1_i_op.txt}
+\csvautotabular{../mat/resultados1_v_op.txt}
+
+NGSpice results
+\csvautotabular{../sim/V1.txt}
+
+\vspace{1cm}
+
+\textbf{Second transistor (pnp)}
+
+\indent
+
+
+
+The current through the base of the first transistor is given by $$I_{B2} = I_{E2}-I_{C2}$$
+
+The current through the collector of the first transistor is given by $$\beta_{FP}/(\beta_{FP}+1)\cdot I_{E2}$$
+
+The current through the emitter of the first transistor is given by $$I_{E2} = (V_{CC}-V_{EBon}-V_{I2})/R_{E2}$$
+
+The voltage drop from the emitter to the collector is given by $$ V_{EC2} = V_{O} $$
+
+The voltage drop from the emitter to the base is given by $$ V_{EB2} = V_{EBon} $$
+
+\csvautotabular{../mat/resultados2_i_op.txt}
+\csvautotabular{../mat/resultados2_v_op.txt}
+
+NGSpice results
+\csvautotabular{../sim/V2.txt}
+
+\vspace{1cm}
+
+\textbf{Comparation of OP} 
+
+\indent
+
+The values of $V_{EB}$ are similar because it was an approximation of experimental results.
+
+The values of $V_{EC}$ are not as colse as the previous one, but the order of magnitude is the same in both cases.
+
+Furthermore, in both cases, it is possible to conclude that the transistors are working in forward active region (F.A.R.), since $V_{CE} > V_{BE}$ and $V_{EC} > V_{EB}$.
+
+
+
+
+
+\indent
+
+
+
+\subsection{Gain, Input and Output Impedances}
+
+The input and output impedances of the first transistor is given by, respectively,
+
+$$Z_{i1} = \frac {1}{\frac {1/R_b+1}{((r_{o1}+R_{c1}+R_{e1})\cdot (r_{\pi 1}+R_{e1})+g_{m1}\cdot R_{e1}\cdot r_{o1}\cdot r_{\pi 1} - R_{e1}^2)/(r_{o1}+R_{c1}+R_{e1})}}$$
+
+$$Z_{o1} = \frac {1}{1/r_{o1}+1/R_{c1}}$$
+
+The gain of the first transistor is given by
+
+$$gain_1=R_{sb}/R_{s}\cdot R_{c1}\cdot \frac {R_{e1}-g_{m1}\cdot r_{\pi 1}\cdot r_{o1}}{(r_{o1}+R_{c1}+R_{e1})\cdot (R_{sb}+r_{\pi 1}+R_{e1})+g_{m1}\cdot R_{e1}\cdot r_{o1}\cdot r_{\pi 1} - R_{e1}^2} $$
+
+The input and output impedances of the second transistor can be given by, respectively,
+
+$$Z_{i2} = \frac {g_{m2}+g_{\pi 2}+g_{o2}+g_{e2}}{g_{\pi 2}/(g_{\pi 2}+g_{o2}+g_{e2}}$$
+
+$$Z_{o2} = 1/(g_{m2}+g_{\pi 2}+g_{o2}+g_{e2})$$
+
+The gain of the second transistor is given by
+
+$$gain_2 =\frac { g_{m2}}{g_{m2}+g_{\pi 2}+g_{o2}+g_{e2}}$$
+
+This yields,
+
+\csvautotabular{../mat/imp.txt}
+
+\vspace{1cm}
+
+Because the input impedance is 161 times bigger then the ouput impedance, they can be connected without significant signal loss.
+
+
+
+\subsection{Frequency Response}
+
+\textbf{Gain Stage} 
+
+ The results differ a little bit in the first stage of the graphic and are similar after that, until it starts to decrease.
+ 
+ The reason for that is that it is assumed that for lower frequencies the capacitor in series with $V_in$ acts as a short circuit when in reality it is not.
+ 
+ Nevertheless, the reason where the gain is increasing is approximately the same which is good.
+ 
+ The decrease at the end is not predicted is the theoretical model because it happens due to capacitors inside the transistors which are not being considered.
+
+\begin{figure}[h]
+    \centering
+\subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/vo1f.pdf}
+\label{Fig_2_estatica}}
+  \hfill
+\subfloat[Theoretical Results]{\includegraphics[width=0.55\textwidth]{../mat/gain1.png}
+\label{Fig_2_dinamica}}
+\end{figure}
+
+  \begin{figure}[h]
+     \centering
+     \caption{Gain stage's output voltage gain.}
+     \label{fig_2_reação_normal}
+ \end{figure}
+ 
+ 
+ \vspace{1cm}
+ 
+ \textbf{Entire Circuit} 
+ 
+ \indent
+
+To analyse the gain of the entire circuit, we used the set of equations discussed in one of the posts in forum (https://groups.google.com/u/1/a/tecnico.ulisboa.pt/g/teoria-dos-circuitos-e-fundamentos-de-electrnica-tcfe/c/2oJaeUUFsTk), that can be obtained by using mesh analysis in the bellow circuit, in order to get a more accurate result
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+As it can be seen bellow, this was achieved and the theoretical model and the NGSpice one are really similar.
+
+Once again, for higher frequencies the results differ because the capacitors inside the transistor are not being considered.
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \begin{figure}[h]
+    \centering
+\subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/vo2f.pdf}
+\label{Fig_2_estatica}}
+  \hfill
+\subfloat[Theoretical Results]{\includegraphics[width=0.55\textwidth]{../mat/gain2.png}
+\label{Fig_2_dinamica}}
+\end{figure}
+
+  \begin{figure}[b]
+     \centering
+     \caption{Output stage's output voltage gain.}
+     \label{fig_2_reação_normal}
+ \end{figure}
+ 
+ 
+ 
+ 
+
