@@ -5,6 +5,7 @@ all: ngspice.log
 	$(foreach i, $(NGSTABS), sed -n '/^$i_TAB/,/^$i_END/{p;/^$i_END/q}' $< | grep -v $i_TAB | grep -v $i_END | grep -v '#' | sed 's/\=/\&/g' | sed 's/$$/\\\\ \\hline/g' > $i_tab.tex;)
 	$(foreach i, $(NGSFIGPS), ps2pdf $i;)
 	ngspice < t4aux.net > ngspiceaux.log
+	ps2pdf outputimpedance.ps
 	octave M.mat
 
 ngspice.log: ../sim/t4.net
@@ -12,6 +13,6 @@ ngspice.log: ../sim/t4.net
 	
 
 clean:
-	@rm -f *.log *.tex *.pdf *.ps *~ *.csv lab4OTM.net octave-workspace
+	@rm -f *.log *.tex *.pdf *.ps *~ *.csv *txt lab4OTM.net octave-workspace
 
 .PHONY: all clean

@@ -41,6 +41,21 @@ RL out 0 0.008k
 
 print all
 
+op
+
+echo "V transistor 1"
+let vce=v(coll)-v(emit)
+let vbe=v(base)-v(emit)
+echo "VCE = $&vce V"
+echo "VBE = $&vbe V"
+
+echo ""
+echo "V transistor 2"
+let vec2=v(emit2)
+let veb2=v(emit2)-v(coll)
+echo "VEC = $&vec2 V"
+echo "VEB = $&veb2 V"
+
 * time analysis
 tran 1e-5 1e-2
 plot v(coll)
@@ -58,7 +73,8 @@ echo vo1f_FIG
 
 *plot vdb(out)
 *plot vp(out)
-hardcopy vo2f.ps vdb(out)
+let gain = vdb(out)-vdb(in2)
+hardcopy vo2f.ps gain
 echo vo2f_FIG
 
 let mxoutlvl = maximum(vdb(out))-3

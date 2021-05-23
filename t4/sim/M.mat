@@ -6,7 +6,7 @@ function [cost, M] = evaluate()
 fidr = fopen("t4.net","r");
 ntrans = 0;
 resistors = 0;
-resistors_ = []
+resistors_ = [];
 capacitors = 0;
 capacitors_ = [];
 l = fgets(fidr);
@@ -75,10 +75,10 @@ fclose(fido);
 %output impedence
 fido2 = fopen("ngspiceaux.log","r");
 nlines = fskipl (fido2, 20);
-line5 = fgetl(fido2)
+line5 = fgetl(fido2);
 line5 = strsplit(line5,"=");
 %line5 = strsplit(line5{2},",");
-oi1 = str2double(line5{1});
+oi1 = str2double(line5{2});
 %oi2 = str2double(line5{2});
 fclose(fido2);
 
@@ -120,6 +120,38 @@ disp(M);
 %disp(resistors_)
 
 fclose(fidw);
+
+fidlog = fopen("ngspice.log","r");
+nlines = fskipl (fidlog, 32);
+VCE1 = fgetl(fidlog);
+VCE1 = strsplit(VCE1,"=");
+VCE1 = VCE1{2};
+VBE1 = fgetl(fidlog);
+VBE1 = strsplit(VBE1,"=");
+VBE1 = VBE1{2};
+
+nlines = fskipl (fidlog, 2);
+VEC2 = fgetl(fidlog);
+VEC2 = strsplit(VEC2,"=");
+VEC2 = VEC2{2};
+VEB2 = fgetl(fidlog);
+VEB2 = strsplit(VEB2,"=");
+VEB2 = VEB2{2};
+
+fclose(fidlog);
+
+fidV1 = fopen("V1.txt","w");
+fprintf(fidV1," & V(v) \n");
+fprintf(fidV1,"VCE & %s \n",VCE1);
+fprintf(fidV1,"VBE & %s \n",VBE1);
+fclose(fidV1);
+
+fidV1 = fopen("V2.txt","w");
+fprintf(fidV1," & V(v) \n");
+fprintf(fidV1,"VEC & %s \n",VEC2);
+fprintf(fidV1,"VEB & %s \n",VEB2);
+fclose(fidV1);
+
 end
 
 %run
