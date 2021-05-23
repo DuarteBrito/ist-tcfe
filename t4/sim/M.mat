@@ -70,15 +70,17 @@ line4 = strsplit(line4{2},",");
 ii1 = str2double(line4{1});
 ii2 = str2double(line4{2});
 
-%output impedence
-line5 = fgetl(fido);
-line5 = strsplit(line5,"\\");
-line5 = strsplit(line5{1},"&");
-line5 = strsplit(line5{2},",");
-oi1 = str2double(line5{1});
-oi2 = str2double(line5{2});
-
 fclose(fido);
+
+%output impedence
+fido2 = fopen("ngspiceaux.log","r");
+nlines = fskipl (fido2, 20);
+line5 = fgetl(fido2)
+line5 = strsplit(line5,"=");
+%line5 = strsplit(line5{2},",");
+oi1 = str2double(line5{1});
+%oi2 = str2double(line5{2});
+fclose(fido2);
 
 bandwidth= higherCutoffFreq-lowerCutoffFreq;
 
@@ -103,7 +105,8 @@ disp("bandwidth:");
 disp(bandwidth);
 
 fprintf(fidw,"input impedence & %f + i%f kohm\\\\ \n \\hline\n",ii1, ii2);
-fprintf(fidw,"output impedence & %f + i%f kohm\\\\ \n \\hline\n",oi1, oi2);
+%fprintf(fidw,"output impedence & %f + i%f kohm\\\\ \n \\hline\n",oi1, oi2);
+fprintf(fidw,"output impedence & %f ohm\\\\ \n \\hline\n",oi1);
 
 fprintf(fidw,"Cost & %f \\\\ \n \\hline\n",cost);
 disp("cost:");
@@ -113,8 +116,8 @@ fprintf(fidw,"M & %f \\\\ \n \\hline\n",M);
 disp("M:");
 disp(M);
 
-disp(capacitors_)
-disp(resistors_)
+%disp(capacitors_)
+%disp(resistors_)
 
 fclose(fidw);
 end
