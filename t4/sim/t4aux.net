@@ -53,6 +53,13 @@ hardcopy outputimpedance.ps abs(v(out)/i(Vtest))
 
 echo "info_END"
 
+<<<<<<< HEAD:t4/sim/t4aux.net
 quit
+=======
+plot abs(v(in2)/vin#branch/(-1000))
+print v(in2)[40]/vin#branch[40]/(-1000)
+
+*need a different setup to measure output impedance
+>>>>>>> upstream/master:t4/t4.net
 
 .endc 
