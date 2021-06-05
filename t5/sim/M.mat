@@ -1,0 +1,166 @@
+%File made to calculate the M value of the sistem
+%28/4/2021
+
+function [cost, M] = evaluate()
+%check file for the component usage values
+fidr = fopen("t4.net","r");
+ntrans = 0;
+resistors = 0;
+resistors_ = [];
+capacitors = 0;
+capacitors_ = [];
+l = fgets(fidr);
+while not(l == -1) & not(strcmp(l,""))
+
+if strcmp(l(1),"C")
+l = strsplit(l," ");
+l = l{4};
+l = strsplit(l,"u");
+l = l{1};
+capacitors = capacitors + str2double(l);
+capacitors_ = [capacitors_ , str2double(l)];
+end
+
+if strcmp(l(1),"R")
+l = strsplit(l," ");
+l = l{4};
+l = strsplit(l,"k");
+l = l{1};
+resistors = resistors + str2double(l);
+resistors_ = [resistors_, str2double(l)];
+end
+
+if strcmp(l(1),"Q")
+ntrans = ntrans +1;
+end
+
+l = fgets (fidr);
+
+end
+
+fclose(fidr);
+
+cost = resistors+ntrans*0.1+capacitors-0.108;
+
+fido = fopen("info_tab.tex","r");
+%voltage gain
+line1 = fgetl(fido);
+line1 = strsplit(line1,"\\");
+voltageGain = strsplit(line1{1},"&");
+voltageGain = voltageGain{2};
+voltageGain = str2double(voltageGain);
+
+%lowerCutoffFreq
+line2 = fgetl(fido);
+line2 = strsplit(line2,"\\");
+lowerCutoffFreq = strsplit(line2{1},"&");
+lowerCutoffFreq = str2double(lowerCutoffFreq{2});
+
+%higherCutoffFreq
+line3 = fgetl(fido);
+line3 = strsplit(line3,"\\");
+higherCutoffFreq = strsplit(line3{1},"&");
+higherCutoffFreq = str2double(higherCutoffFreq{2});
+
+%input impedence
+line4 = fgetl(fido);
+line4 = strsplit(line4,"\\");
+line4 = strsplit(line4{1},"&");
+line4 = strsplit(line4{2},",");
+ii1 = str2double(line4{1});
+ii2 = str2double(line4{2});
+
+fclose(fido);
+
+%output impedence
+fido2 = fopen("ngspiceaux.log","r");
+nlines = fskipl (fido2, 20);
+line5 = fgetl(fido2);
+line5 = strsplit(line5,"=");
+%line5 = strsplit(line5{2},",");
+oi1 = str2double(line5{2});
+%oi2 = str2double(line5{2});
+fclose(fido2);
+
+bandwidth= higherCutoffFreq-lowerCutoffFreq;
+
+M = (voltageGain*bandwidth)/(cost*lowerCutoffFreq);
+
+fidw = fopen("info.tex","w");
+fprintf(fidw,"Parameter & Value\\\\ \n \\hline\n");
+fprintf(fidw,"Voltage Gain & %f \\\\ \n \\hline\n",voltageGain);
+disp("Voltage Gain:");
+disp(voltageGain);
+
+fprintf(fidw,"lowerCutoffFreq & %f \\\\ \n \\hline\n",lowerCutoffFreq);
+disp("lowerCutoffFreq:");
+disp(lowerCutoffFreq);
+
+fprintf(fidw,"higherCutoffFreq & %f \\\\ \n \\hline\n",higherCutoffFreq);
+disp("higherCutoffFreq:");
+disp(higherCutoffFreq);
+
+fprintf(fidw,"bandwith & %f \\\\ \n \\hline\n",bandwidth);
+disp("bandwidth:");
+disp(bandwidth);
+
+fprintf(fidw,"input impedence & %f + i%f kohm\\\\ \n \\hline\n",ii1, ii2);
+%fprintf(fidw,"output impedence & %f + i%f kohm\\\\ \n \\hline\n",oi1, oi2);
+fprintf(fidw,"output impedence & %f ohm\\\\ \n \\hline\n",oi1);
+
+fprintf(fidw,"Cost & %f \\\\ \n \\hline\n",cost);
+disp("cost:");
+disp(cost);
+
+fprintf(fidw,"M & %f \\\\ \n \\hline\n",M);
+disp("M:");
+disp(M);
+
+%disp(capacitors_)
+%disp(resistors_)
+
+fclose(fidw);
+
+fidlog = fopen("ngspice.log","r");
+line= fgetl(fidlog);
+while not(strcmp(line,"V transistor 1"))
+	line = fgetl(fidlog);
+end
+VCE1 = fgetl(fidlog);
+VCE1 = strsplit(VCE1,"=");
+VCE1 = VCE1{2};
+VBE1 = fgetl(fidlog);
+VBE1 = strsplit(VBE1,"=");
+VBE1 = VBE1{2};
+
+nlines = fskipl (fidlog, 2);
+VEC2 = fgetl(fidlog);
+VEC2 = strsplit(VEC2,"=");
+VEC2 = VEC2{2};
+VEB2 = fgetl(fidlog);
+VEB2 = strsplit(VEB2,"=");
+VEB2 = VEB2{2};
+
+fclose(fidlog);
+
+fidV1 = fopen("V1.txt","w");
+fprintf(fidV1," , V(v) \n");
+fprintf(fidV1,"VCE , %s \n",VCE1);
+fprintf(fidV1,"VBE , %s \n",VBE1);
+fclose(fidV1);
+
+fidV1 = fopen("V2.txt","w");
+fprintf(fidV1," , V(v) \n");
+fprintf(fidV1,"VEC , %s \n",VEC2);
+fprintf(fidV1,"VEB , %s \n",VEB2);
+fclose(fidV1);
+
+end
+
+%run
+[cost, M] = evaluate();
+
+
+
+
+
