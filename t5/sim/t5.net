@@ -53,12 +53,15 @@ Vcc vcc 0 5.0
 Vee vee 0 -5.0
 Vin in 0 0 ac 1.0 sin(0 10m 1k)
 
-X1 0 inv_in vcc vee out uA741
+X1 non_inv_in inv_in vcc vee op uA741
 
-Rb1 non_inv_in 0 10000
+Cb1 in non_inv_in 1000E-9
+Cb2 out 0 110E-9
+
+Rb1 non_inv_in 0 20000
 Rb2a op out 1000
 Rb2b op out 1000
-Rb3 out inv_in 100000
+Rb3 op inv_in 100000
 Rb4 inv_in 0 1000
 
 * load
@@ -73,18 +76,31 @@ print all
 
 * time analysis
 tran 1e-5 1e-2
-*plot v(out)
-hardcopy vo1.ps v(out)
-
+hardcopy vot.ps v(out)
+echo vot_FIG
 
 * frequency analysis
 ac dec 10 10 100MEG
-*plot vdb(out)
-*plot vp(out)
-hardcopy vo1f.ps vdb(out)
+hardcopy vof.ps vdb(out)
+hardcopy vop.ps vp(out)
+echo vof_FIG
+echo vop_FIG
+
+echo "info_TAB"
+*gain
+print maximum(vdb(out)-vdb(in))
+
+*band analysis
+let maxGain = vecmax(vdb(out))-3
+meas ac lowerCut WHEN vdb(out) = maxGain RISE = 1
+meas ac higherCut WHEN vdb(out) = maxGain CROSS = LAST
 
 *input impedance in kohm
-print v(in)[40]/R1[i]/1000
+print v(in)[40]/Vin#branch[40]
+
+*output impedance in kohm
+print v(out)[40]/i(vout)[40]
+echo "info_END"
 
 *need a different setup to measure output impedance
 
