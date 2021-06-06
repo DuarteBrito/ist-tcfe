@@ -5,6 +5,7 @@ function [cost, M] = evaluate()
 %check file for the component usage values
 fidr = fopen("t5.net","r");
 ntrans = 0;
+ndio = 0;
 resistors = 0;
 resistors_ = [];
 capacitors = 0;
@@ -14,7 +15,7 @@ while not(l == -1) & not(strcmp(l,""))
 l = strtrim(l);
 
 if length(l) != 0
-if strcmp(l(1),"C")
+if strcmp(l(1),"c")
 l = strsplit(l," ");
 l = l{4};
 l = strsplit(l,"u");
@@ -23,7 +24,7 @@ capacitors = capacitors + str2double(l);
 capacitors_ = [capacitors_ , str2double(l)];
 end
 
-if strcmp(l(1),"R")
+if strcmp(l(1),"r")
 l = strsplit(l," ");
 l = l{4};
 l = strsplit(l,"k");
@@ -32,8 +33,11 @@ resistors = resistors + str2double(l);
 resistors_ = [resistors_, str2double(l)];
 end
 
-if strcmp(l(1),"Q")
+if strcmp(l(1),"q")
 ntrans = ntrans +1;
+end
+if strcmp(l(1),"d")
+ndio = ndio +1;
 end
 end
 
@@ -43,7 +47,7 @@ end
 
 fclose(fidr);
 
-cost = resistors+ntrans*0.1+capacitors;
+cost = (resistors/1000)+ntrans*0.1+ndio*0.1+(capacitors*1000000);
 
 fido = fopen("info_tab.tex","r");
 %voltage gain
@@ -74,21 +78,17 @@ ii1 = str2double(line4{1});
 ii2 = str2double(line4{2});
 
 fclose(fido);
-%{
+
 %output impedence
-fido2 = fopen("ngspiceaux.log","r");
-nlines = fskipl (fido2, 20);
+fido2 = fopen("t5aux.txt","r");
 line5 = fgetl(fido2);
 line5 = strsplit(line5,"=");
-%line5 = strsplit(line5{2},",");
-oi1 = str2double(line5{2});
-%oi2 = str2double(line5{2});
+oi = str2double(line5{2});
 fclose(fido2);
-%}
 
-w0= sqrt((higherCutoffFreq .^ 2)+(lowerCutoffFreq .^ 2));
+f0= sqrt( higherCutoffFreq * lowerCutoffFreq );
 
-M = 1/(cost*(abs(voltageGain-40)+abs(w0-1000)+(10 .^(-6) )));
+M = 1/(cost*((10 .^ (abs(voltageGain-40)/20))+abs(f0-1000)+(10 .^(-6) )));
 
 fidw = fopen("info.tex","w");
 fprintf(fidw,"Parameter & Value\\\\ \n \\hline\n");
@@ -104,13 +104,13 @@ fprintf(fidw,"higherCutoffFreq & %f \\\\ \n \\hline\n",higherCutoffFreq);
 disp("higherCutoffFreq:");
 disp(higherCutoffFreq);
 
-fprintf(fidw,"w0 & %f \\\\ \n \\hline\n",w0);
-disp("w0:");
-disp(w0);
+fprintf(fidw,"f0 & %f \\\\ \n \\hline\n",f0);
+disp("f0:");
+disp(f0);
 
-fprintf(fidw,"input impedence & %f + i%f kohm\\\\ \n \\hline\n",ii1, ii2);
-%fprintf(fidw,"output impedence & %f + i%f kohm\\\\ \n \\hline\n",oi1, oi2);
-%fprintf(fidw,"output impedence & %f ohm\\\\ \n \\hline\n",oi1);
+fprintf(fidw,"input impedence & %f + i%f ohm\\\\ \n \\hline\n",ii1, ii2);
+%fprintf(fidw,"output impedence & %f + i%f ohm\\\\ \n \\hline\n",oi1, oi2);
+fprintf(fidw,"output impedence & %f ohm\\\\ \n \\hline\n",oi1);
 
 fprintf(fidw,"Cost & %f \\\\ \n \\hline\n",cost);
 disp("cost:");

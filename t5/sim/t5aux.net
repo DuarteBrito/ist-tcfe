@@ -51,7 +51,7 @@
 
 vcc vcc 0 5.0
 vee vee 0 -5.0
-vin in 0 0 ac 1.0 sin(0 10m 1k)
+vin in 0 0
 
 X1 non_inv_in inv_in vcc vee op uA741
 
@@ -63,8 +63,7 @@ rb2 op out 1000
 rb3 op inv_in 130000
 rb4 inv_in 0 1000
 
-* load
-*RL out 0 8
+Vo out 0 0 ac 1 sin(0 1 1000)
 
 .op
 .end
@@ -73,37 +72,17 @@ rb4 inv_in 0 1000
 
 print all
 
-* time analysis
-tran 1e-5 1e-2
-hardcopy vot.ps v(out)
-echo vot_FIG
-
 * frequency analysis
 ac dec 10 10 100MEG
-hardcopy vof.ps vdb(out)
-hardcopy vop.ps vp(out)
-echo vof_FIG
-echo vop_FIG
-let inputI = v(in)[40]/Vin#branch[40]
-
-echo "info_TAB"
-*gain
-print maximum(vdb(out)-vdb(in))
-
-*band analysis
-let maxGain = vecmax(vdb(out))-3
-meas ac lowerCut WHEN vdb(out) = maxGain RISE = 1
-meas ac higherCut WHEN vdb(out) = maxGain CROSS = LAST
-
-*input impedance in kohm
-print inputI
-print abs(inputI)
 
 *output impedance in kohm
-*print v(out)[40]/i(vout)[40]
-echo "info_END"
+let Zo = v(out)[40]/Vo#branch[40]
+
+print abs(Zo) >> t5aux.txt 
+print Zo >> t5aux.txt 
 
 quit
 
 .endc 
+
 
