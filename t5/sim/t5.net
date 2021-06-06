@@ -55,12 +55,11 @@ Vin in 0 0 ac 1.0 sin(0 10m 1k)
 
 X1 non_inv_in inv_in vcc vee op uA741
 
-Cb1 in non_inv_in 1000E-9
-Cb2 out 0 110E-9
+Cb1 in non_inv_in 220E-9
+Cb2 out 0 90.17E-9
 
-Rb1 non_inv_in 0 20000
-Rb2a op out 1000
-Rb2b op out 1000
+Rb1 non_inv_in 0 10000
+Rb2 op out 500
 Rb3 op inv_in 100000
 Rb4 inv_in 0 1000
 
@@ -99,7 +98,7 @@ meas ac higherCut WHEN vdb(out) = maxGain CROSS = LAST
 print v(in)[40]/Vin#branch[40]
 
 *output impedance in kohm
-print v(out)[40]/i(vout)[40]
+*print v(out)[40]/i(vout)[40]
 echo "info_END"
 
 *need a different setup to measure output impedance

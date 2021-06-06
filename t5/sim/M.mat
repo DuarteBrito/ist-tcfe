@@ -3,7 +3,7 @@
 
 function [cost, M] = evaluate()
 %check file for the component usage values
-fidr = fopen("t4.net","r");
+fidr = fopen("t5.net","r");
 ntrans = 0;
 resistors = 0;
 resistors_ = [];
@@ -13,6 +13,7 @@ l = fgets(fidr);
 while not(l == -1) & not(strcmp(l,""))
 l = strtrim(l);
 
+if length(l) != 0
 if strcmp(l(1),"C")
 l = strsplit(l," ");
 l = l{4};
@@ -33,6 +34,7 @@ end
 
 if strcmp(l(1),"Q")
 ntrans = ntrans +1;
+end
 end
 
 l = fgets (fidr);
@@ -86,7 +88,7 @@ fclose(fido2);
 
 w0= sqrt((higherCutoffFreq .^ 2)+(lowerCutoffFreq .^ 2));
 
-M = 1/(cost*abs(voltageGain-40)*abs(w0-1000));
+M = 1/(cost*(abs(voltageGain-40)+abs(w0-1000)+(10 .^(-6) )));
 
 fidw = fopen("info.tex","w");
 fprintf(fidw,"Parameter & Value\\\\ \n \\hline\n");
