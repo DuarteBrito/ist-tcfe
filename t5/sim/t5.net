@@ -60,7 +60,7 @@ cb2 out 0 110E-9
 
 rb1 non_inv_in 0 1000
 rb2 op out 1000
-rb3 op inv_in 130000
+rb3 op inv_in 110000
 rb4 inv_in 0 1000
 
 * load
@@ -84,7 +84,7 @@ hardcopy vof.ps vdb(out)
 hardcopy vop.ps vp(out)
 echo vof_FIG
 echo vop_FIG
-let inputI = v(in)[40]/Vin#branch[40]
+let inputI = (-1)*v(in)[40]/Vin#branch[40]
 
 echo "info_TAB"
 *gain
@@ -97,7 +97,6 @@ meas ac higherCut WHEN vdb(out) = maxGain CROSS = LAST
 
 *input impedance in kohm
 print inputI
-print abs(inputI)
 
 *output impedance in kohm
 *print v(out)[40]/i(vout)[40]

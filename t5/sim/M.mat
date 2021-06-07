@@ -47,7 +47,7 @@ end
 
 fclose(fidr);
 
-cost = (resistors/1000)+ntrans*0.1+ndio*0.1+(capacitors*1000000);
+cost = (resistors/1000)+ntrans*0.1+ndio*0.1+(capacitors*1000000)+0.330;
 
 fido = fopen("info_tab.tex","r");
 %voltage gain
@@ -83,7 +83,9 @@ fclose(fido);
 fido2 = fopen("t5aux.txt","r");
 line5 = fgetl(fido2);
 line5 = strsplit(line5,"=");
-oi = str2double(line5{2});
+line5 = strsplit(line5{2},",");
+oi1 = str2double(line5{1});
+oi2 = str2double(line5{2});
 fclose(fido2);
 
 f0= sqrt( higherCutoffFreq * lowerCutoffFreq );
@@ -109,8 +111,7 @@ disp("f0:");
 disp(f0);
 
 fprintf(fidw,"input impedence & %f + i%f ohm\\\\ \n \\hline\n",ii1, ii2);
-%fprintf(fidw,"output impedence & %f + i%f ohm\\\\ \n \\hline\n",oi1, oi2);
-fprintf(fidw,"output impedence & %f ohm\\\\ \n \\hline\n",oi1);
+fprintf(fidw,"output impedence & %f + i%f ohm\\\\ \n \\hline\n",oi1, oi2);
 
 fprintf(fidw,"Cost & %f \\\\ \n \\hline\n",cost);
 disp("cost:");
@@ -125,6 +126,23 @@ disp(M);
 
 fclose(fidw);
 
+fidc1 = fopen("comp1.txt","w");
+fprintf(fidc1," , results (Hz)\n");
+fprintf(fidc1,"f_L, %f \n",lowerCutoffFreq);
+fprintf(fidc1,"f_H, %f \n",higherCutoffFreq);
+fprintf(fidc1,"f_0, %f \n",f0);
+fclose(fidc1);
+
+fidc2 = fopen("comp2.txt","w");
+fprintf(fidc2," , results\n");
+fprintf(fidc2,"gain, %f (db)\n",voltageGain);
+fprintf(fidc2,"input impedence, %f + i%f (ohm)\n",ii1, ii2);
+fprintf(fidc2,"output impedence, %f + i%f (ohm)\n",oi1, oi2);
+fclose(fidc2);
+
+fidc3 = fopen("comp3.txt","w");
+fprintf(fidc3,"M , %f\n", M);
+fclose(fidc3);
 end
 
 %run
