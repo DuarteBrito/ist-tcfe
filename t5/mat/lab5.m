@@ -61,7 +61,7 @@ print("gain.png", "-dpng");
 figure
 semilogx(f,angle(f_res))
 xlabel("Frequency [Hz]");
-ylabel("Phase [Deg]");
+ylabel("Phase [Rad]");
 title("Phase");
 print("phase.png", "-dpng");
 
@@ -72,20 +72,20 @@ merit = 1/(cost*(abs(maxi-100)+abs(deviation)+1e-6));
 
 % resultados
 fidRes = fopen("resultados.txt","w");
-fprintf(fidRes," ,results\n");
-fprintf(fidRes,"gain (dB),%f\n",gain);
-fprintf(fidRes,"input impedance (ohm),%f\n",Z_i);
-fprintf(fidRes,"output impedance (ohm),%f\n",Z_o);
+fprintf(fidRes,"Theoretical results ,value\n");
+fprintf(fidRes,"gain ,%f (dB)\n",gain);
+fprintf(fidRes,"input impedance,%f Ohm\n",Z_i);
+fprintf(fidRes,"output impedance,%f Ohm\n",Z_o);
 fclose(fidRes);
 
 
 
 % resultados
 fidRes2 = fopen("resultados2.txt","w");
-fprintf(fidRes2," ,results\n");
-fprintf(fidRes2,"f_L,%f\n",f_L);
-fprintf(fidRes2,"f_H,%f\n",f_H);
-fprintf(fidRes2,"f_0,%f\n",f_0);
+fprintf(fidRes2,"Theoretical results ,value (Hz)\n");
+fprintf(fidRes2,"$f_L$,%f\n",f_L);
+fprintf(fidRes2,"$f_H$,%f\n",f_H);
+fprintf(fidRes2,"$f_0$,%f\n",f_0);
 fclose(fidRes2);
 
 

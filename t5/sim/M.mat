@@ -127,17 +127,17 @@ disp(M);
 fclose(fidw);
 
 fidc1 = fopen("comp1.txt","w");
-fprintf(fidc1," , results (Hz)\n");
-fprintf(fidc1,"f_L, %f \n",lowerCutoffFreq);
-fprintf(fidc1,"f_H, %f \n",higherCutoffFreq);
-fprintf(fidc1,"f_0, %f \n",f0);
+fprintf(fidc1,"Simulation results ,value (Hz)\n");
+fprintf(fidc1,"$f_L$, %f \n",lowerCutoffFreq);
+fprintf(fidc1,"$f_H$, %f \n",higherCutoffFreq);
+fprintf(fidc1,"$f_0$, %f \n",f0);
 fclose(fidc1);
 
 fidc2 = fopen("comp2.txt","w");
-fprintf(fidc2," , results\n");
-fprintf(fidc2,"gain, %f (db)\n",voltageGain);
-fprintf(fidc2,"input impedence, %f + i%f (ohm)\n",ii1, ii2);
-fprintf(fidc2,"output impedence, %f + i%f (ohm)\n",oi1, oi2);
+fprintf(fidc2,"Simulation results , value\n");
+fprintf(fidc2,"gain, %f (dB)\n",voltageGain);
+fprintf(fidc2,"input impedence, %f + i%f Ohm\n",ii1, ii2);
+fprintf(fidc2,"output impedence, %f + i%f Ohm\n",oi1, oi2);
 fclose(fidc2);
 
 fidc3 = fopen("comp3.txt","w");
