@@ -141,7 +141,7 @@ fprintf(fidc2,"output impedence, %f + i%f (ohm)\n",oi1, oi2);
 fclose(fidc2);
 
 fidc3 = fopen("comp3.txt","w");
-fprintf(fidc3,"M , %f\n", M);
+fprintf(fidc3,"M & %d \\\\ \n \\hline\n",M);
 fclose(fidc3);
 end
 
