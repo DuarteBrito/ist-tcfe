@@ -1,0 +1,54 @@
+\section{Simulation Analysis}
+\label{sec:simulation analysis}
+
+\subsection{Incremental Modifications}
+
+\indent
+
+In order to maximize the M value, the provided circuit was used, and small changes were made to its parameters in order to evaluate their results. Since the number and type of components available were limited, not only were the best parameters evaluated but it was also looked into the best way of making the respective component from coupling other components in various ways.
+
+In order to maximize the merit value, we started with the cheapest combination of C's and R's (C = 0.22 $\mu$F and R = 1 k$\Omega$). Then we calculated the corresponding frequency with the formulas \ref{1}, \ref{2} and \ref{3} discussed in the theoretical analysis. We noted that it was lower than the target central frequency. That meant that we needed the appropriate higher frequency to keep the 1kHz central frequency (formula \ref{3}). Using once again formula \ref{1} and keeping the same resistance we found that the C2 value we were looking for was 0.110 $\mu$F, that could be achieved by combining 2 0.220 $\mu$F capacitors in series.
+
+%For R3 and R4 we took a more trial and error focused approach. We noted that increasing R3 lead to a gain increase, but that shifted the frequencies and increased the cost. We ended up leaving it at 110 k$\Omega$, a value that ensures a gain close to the target.
+
+For R3 and R4, we took a more trial and error focused approach. We fixed the value of R4 to $1 k\Omega$ as it was the lowest value, and then played with the value of R3 to make the gain as close to 40 dB while also trying to maximize the merit.
+
+\subsubsection{Cost}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    %{\bf Name} & {\bf Value [A or V]} \\ \hline
+    Component & Parameter Value \\
+    \hline
+    Op Amp & 13323 Mu \\
+    \hline
+    $C_{1}$ & 0.220 $\mu$F \\
+    \hline
+    $C_{2}$ & 0.110 $\mu$F (2x 0.220) \\
+    \hline
+    $R_{1}$ & 1 k$\Omega$ \\
+    \hline
+    $R_{2}$ & 1 k$\Omega$ \\
+    \hline
+    $R_{3}$ & 110 k$\Omega$ \\
+    \hline
+    $R_{4}$ & 1 k$\Omega$ \\
+    \hline
+    Total cost & 13436.66 MU \\
+    \hline
+  \end{tabular}
+  \caption{Table of costs. Note that the total cost is sum of the the other values.}
+  \label{tab:components}
+\end{table}
+
+\subsubsection{Results}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline
+    \input{../sim/info}
+  \end{tabular}
+  \caption{Spice Results}
+  \label{tab:spice}
+\end{table}

@@ -1,0 +1,136 @@
+\section{Theoretical Analysis}
+\label{sec:theoretical analysis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Results at Central Frequency}
+
+\indent
+
+Because this a band pass filter there is a lower cut off frequency, $f_L$ and a high cut off frequency, $f_H$. With these frequencies, we can define $\omega_L$ and $\omega_H$.
+
+The former can be calculated like so,
+
+
+\[\omega_L = \frac{1}{R_1 C_1}\tag{1}\label{1}\]
+
+and the latter can be calculated like so, \[\omega_H = \frac{1}{R_2 C_2}\tag{2}\label{2}\]
+
+The central frequency can then be obtained through the following formula: 
+
+\[\omega _0 =\sqrt{\omega _L \omega _H}\tag{3}\label{3}\]
+
+\vspace{0.5cm}
+\begin{center}
+\csvautotabular{../mat/resultados2.txt}
+\csvautotabular{../sim/comp1.txt}
+\end{center}
+
+\vspace{1cm}
+
+To compute gain of the circuit at the central frequency, the circuit was analysed in its three parts,  the high pass filter, the amplification stage and the low pass filter, resulting in the respective formulae:
+
+\vspace{0.5cm}
+
+\[gain_{HPF}=\frac{j\omega _0 R_1 C_1}{1+j \omega _0 R_1 C_1};\tag{4}\label{4}\]
+ 
+\[gain_{Amplifier}=1+R_3/R_4;\tag{5}\label{5}\]
+ 
+\[gain_{LPF} = \frac{1}{1+j \omega _0 R_2 C_2}.\tag{6}\label{6}\]
+ 
+\vspace{1cm}
+ 
+The gain can then be obtained by the multiplication of each of the previous gains.
+ 
+
+ 
+\vspace{1cm}
+
+In order to obtain the input and output impedances the following formulae were used:
+\vspace{0.5cm}
+ 
+\[Z_i = \frac{1}{j\omega _0 C_1} + R_1\tag{7}\label{7}\]
+ 
+ \[Z_o = \frac{1}{1/R_2 + j \omega _0 C_2}\tag{8}\label{8}\]
+
+
+
+\vspace{1cm}
+
+This results in the following results:
+
+\vspace{0.5cm}
+\begin{center}
+\csvautotabular{../mat/resultados.txt}
+\csvautotabular{../sim/comp2.txt}
+\end{center}
+\vspace{1cm}
+
+As it can be seen, the gain and input impedances have similar values, but the output impedance does not. This can be explained by the fact that the AM-POP is considered to be ideal in theoretical analysis, while in the simulation it acts like a real AM-POP.  
+
+\subsection{Frequency Response}
+
+\indent
+
+The frequency response can be was obtained the same way as it was done with the gain, but by applying the formula to many frequencies. This way, the transfer function will be:
+
+\vspace{0.5cm}
+
+\[f_{res}=\frac{R_1 C_1 \omega j}{1 + R_1 C_1 \omega j}\times(1 + \frac{R_3}{R_4}) \times \frac{1}{1+ R_2 C_2 \omega j} \tag{9}\label{9}\]
+
+\vspace{0.5cm}
+With this function we can obtain the following plots:
+
+\vspace{0.5cm}
+% imagem1 
+
+\begin{figure}[h]
+    \centering
+\subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/vof.pdf}
+\label{gain_sim}}
+  \hfill
+\subfloat[Theoretical Results]{\includegraphics[width=0.55\textwidth]{../mat/gain.png}
+\label{gain_teo}}
+\end{figure}
+
+  \begin{figure}[h]
+     \centering
+     \caption{Gain}
+     \label{gain}
+ \end{figure}
+ 
+\vspace{0.5cm}
+ 
+ % imagem1 
+
+\begin{figure}[H]
+    \centering
+\subfloat[Simulation Results]{\includegraphics[width=0.40\textwidth]{../sim/vop.pdf}
+\label{phase_sim}}
+  \hfill
+\subfloat[Theoretical Results]{\includegraphics[width=0.55\textwidth]{../mat/phase.png}
+\label{phase_teo}}
+\end{figure}
+
+  \begin{figure}[h]
+     \centering
+     \caption{Phase}
+     \label{phase}
+ \end{figure}
+ 
+ 
+ \vspace{1cm}
+
+This way, the theoretical merit will be
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    %{\bf Name} & {\bf Value [A or V]} \\ \hline
+    \input{../mat/merito.txt}
+  \end{tabular}
+  \caption{Theoretical M}
+  \label{tab:info}
+\end{table}
+
+By looking at the previous results, it is possible to see that the theoretical model can predict quite well the value of the gain given a certain frequency. However, the same can't be said about the phase plots. Although, they start similar, as the frequencies get bigger, the results become completely differet.
