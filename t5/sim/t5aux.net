@@ -76,7 +76,7 @@ print all
 ac dec 10 10 100MEG
 
 *output impedance in kohm
-let Zo = (-1)*v(out)[40]/Vo#branch[40]
+let Zo = (-1)*v(out)[20]/Vo#branch[20]
 
 print Zo >> t5aux.txt 
 
