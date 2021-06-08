@@ -84,7 +84,7 @@ hardcopy vof.ps vdb(out)
 hardcopy vop.ps vp(out)
 echo vof_FIG
 echo vop_FIG
-let inputI = (-1)*v(in)[40]/Vin#branch[40]
+let inputI = (-1)*v(in)[20]/Vin#branch[20]
 
 echo "info_TAB"
 *gain
@@ -99,7 +99,7 @@ meas ac higherCut WHEN vdb(out) = maxGain CROSS = LAST
 print inputI
 
 *output impedance in kohm
-*print v(out)[40]/i(vout)[40]
+*print v(out)[20]/i(vout)[20]
 echo "info_END"
 
 quit
