@@ -74,8 +74,8 @@ merit = 1/(cost*(abs(maxi-100)+abs(deviation)+1e-6));
 fidRes = fopen("resultados.txt","w");
 fprintf(fidRes,"Theoretical results ,value\n");
 fprintf(fidRes,"gain ,%f (dB)\n",gain);
-fprintf(fidRes,"input impedance,%f Ohm\n",Z_i);
-fprintf(fidRes,"output impedance,%f Ohm\n",Z_o);
+fprintf(fidRes,"input impedance, %f + i %f Ohm\n",real(Z_i), imag(Z_i));
+fprintf(fidRes,"output impedance,%f + i %f Ohm\n",real(Z_o), imag(Z_o));
 fclose(fidRes);
 
 
